@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SSC Steno Mock Arena</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -32,7 +32,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.5;
-     -webkit-font-smoothing:antialiased}
+     -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;touch-action:manipulation}
 h1,h2,h3,h4{font-family:var(--f-disp);margin:0;text-wrap:balance;line-height:1.18}
 button{font:inherit;cursor:pointer}
 a{color:var(--accent);text-decoration:none}
@@ -182,13 +182,19 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 .pcam-v{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block}
 .startbtn.sm{padding:8px 15px;font-size:13px}
 /* ---------- proctoring: self-view in the exam rail ---------- */
-.pcam{border-bottom:1px solid #dde4ea;padding:8px;background:#f3f6f8}
+.pcam{border-bottom:1px solid #dde4ea;padding:8px;background:#f3f6f8;flex:none}
 .pcam-box{width:100%;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:#0e1620;
-  border:1px solid #c9d4dd}
-.pcam-tag{display:flex;align-items:center;gap:5px;font-size:10px;color:#5b7387;padding-top:5px;
+  border:1px solid #c9d4dd;margin-bottom:6px;transition:all .2s ease}
+.pcam-box.hide-preview{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;
+  padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;border:0!important;opacity:0!important;pointer-events:none!important}
+.pcam-tag{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;color:#5b7387;
   font-family:Verdana,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.pcam-status{display:flex;align-items:center;gap:5px}
 .pcam-tag .rec{width:7px;height:7px;border-radius:50%;background:#d33a3a;flex:none;
   animation:recblink 1.6s ease-in-out infinite}
+.pcam-toggle-btn{background:transparent;border:1px solid #b3c1cd;color:#20405e;border-radius:3px;
+  padding:2px 7px;font-size:9.5px;font-family:Verdana,sans-serif;cursor:pointer;text-transform:none;letter-spacing:normal}
+.pcam-toggle-btn:hover{background:#e2ebf3;color:#0b3c6b;border-color:#0b3c6b}
 @keyframes recblink{50%{opacity:.25}}
 @media (prefers-reduced-motion:reduce){.pcam-tag .rec{animation:none}}
 /* ---------- proctoring: result block ---------- */
@@ -232,8 +238,13 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 .cbt-top{background:#f0f0f0;border-bottom:1px solid #b8b8b8;padding:5px 10px;display:flex;align-items:center;
   justify-content:space-between;gap:10px;flex:none}
 .cbt-top .ttl{font-size:13px;font-weight:bold;color:#0b3c6b}
-.cbt-top .links{display:flex;align-items:center;gap:14px;font-size:11.5px;color:#0b3c6b}
+.cbt-top .links{display:flex;align-items:center;gap:10px;font-size:11.5px;color:#0b3c6b}
 .cbt-top .links button{background:none;border:0;color:#0b3c6b;text-decoration:underline;font-size:11.5px;padding:0;font-family:inherit}
+.cbt-rail-toggle{background:#0b3c6b!important;color:#fff!important;border:1px solid #0b3c6b!important;
+  border-radius:4px;padding:3px 9px!important;font-size:11.5px!important;font-weight:600;text-decoration:none!important;
+  display:inline-flex;align-items:center;gap:5px;cursor:pointer;line-height:1.3}
+.cbt-rail-toggle:hover{background:#082a4d!important}
+.cbt-rail-toggle.active{background:#1c7c4a!important;border-color:#1c7c4a!important}
 .cbt-bar2{background:#ffffff;border-bottom:1px solid #d0d0d0;padding:4px 10px;display:flex;align-items:center;
   justify-content:space-between;gap:10px;flex:none}
 .cbt-cand{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#333}
@@ -291,6 +302,8 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 .cbt-actions{background:#f0f0f0;border-top:1px solid #b8b8b8;padding:8px 12px;display:flex;justify-content:space-between;
   gap:8px;flex:none;flex-wrap:wrap}
 .cbt-actions .grp{display:flex;gap:7px;flex-wrap:wrap}
+.btn-short{display:none}
+.btn-full{display:inline}
 .cb{border:1px solid #9aa8b4;background:linear-gradient(#ffffff,#e6ebef);color:#20405e;border-radius:3px;padding:7px 13px;
   font-size:11.5px;font-family:inherit}
 .cb:hover{background:linear-gradient(#ffffff,#d9e2e9)}
@@ -298,10 +311,21 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 .cb-primary:hover{background:linear-gradient(#37a86b,#177445)}
 .cb-mark{border-color:#5b3591;background:linear-gradient(#8f63c4,#6b3fa0);color:#fff}
 .cb-mark:hover{background:linear-gradient(#7f52b8,#5b3591)}
+.cb-palette{border-color:#0b3c6b;background:linear-gradient(#f0f5fa,#dce7f2);color:#0b3c6b;font-weight:bold}
+.cb-palette:hover{background:linear-gradient(#e4eef7,#cfdeec)}
+.cb-palette.active{background:linear-gradient(#dce7f2,#c2d8ec)}
 .cb-submit{border-color:#0b3c6b;background:linear-gradient(#2f7fc4,#0b3c6b);color:#fff;font-weight:bold}
 
 /* palette rail */
+.rail-backdrop{position:absolute;inset:0;background:rgba(10,18,26,.45);z-index:30;backdrop-filter:blur(1px);transition:opacity .2s}
+.rail-backdrop[hidden]{display:none}
+.rail-topbar{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;
+  background:#e8eef3;color:#0b3c6b;font-size:11.5px;font-weight:bold;border-bottom:1px solid #ccd8e2;flex:none}
+.rail-close-btn{background:#cfdae4;border:1px solid #b3c1cd;color:#20405e;border-radius:3px;
+  padding:2px 7px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:3px;font-family:inherit}
+.rail-close-btn:hover{background:#b9c7d4;color:#0b3c6b}
 .cbt-rail{width:258px;flex:none;border-left:1px solid #c3cdd6;background:#f7f9fb;display:flex;flex-direction:column;min-height:0}
+.cbt-rail.collapsed{display:none!important}
 .legend{padding:9px 10px;border-bottom:1px solid #dde4ea;display:grid;grid-template-columns:auto 1fr;gap:5px 8px;
   font-size:10.5px;color:#333;align-items:center}
 .pal-wrap{flex:1;overflow-y:auto;padding:10px}
@@ -390,10 +414,103 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 .expl{font-size:13px;color:var(--ink-2);border-top:1px dashed var(--rule);padding-top:9px;line-height:1.6}
 .expl b{color:var(--ink)}
 .empty{text-align:center;color:var(--ink-3);padding:40px 0;font-size:14px}
+.table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:14px}
+
 @media(max-width:820px){
-  .cbt-rail{position:absolute;right:0;top:0;bottom:0;z-index:20;box-shadow:-6px 0 18px rgba(0,0,0,.18)}
-  .cbt-rail.collapsed{display:none}
-  .cbt-body{position:relative}
+  .cbt-body{position:relative;overflow:hidden}
+  .cbt-rail{position:absolute;right:0;top:0;bottom:0;width:min(320px,86vw);z-index:40;
+    background:#f7f9fb;box-shadow:-6px 0 24px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.16,1,.3,1);
+    display:flex!important;transform:translateX(0)}
+  .cbt-rail.collapsed{display:flex!important;transform:translateX(105%);pointer-events:none;box-shadow:none}
+  .rail-topbar{background:#0b3c6b;color:#fff;padding:9px 12px;font-size:12.5px}
+  .rail-close-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 9px;font-size:11.5px;font-weight:600}
+  .rail-close-btn:hover{background:rgba(255,255,255,.32)}
+}
+
+@media(max-width:768px){
+  .cbt-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+  .cbt-actions .grp{display:contents}
+  .cbt-actions .cb{padding:8px 4px;font-size:11px;text-align:center;display:flex;align-items:center;
+    justify-content:center;white-space:nowrap;min-height:38px;border-radius:4px}
+  .cbt-actions .cb-primary{grid-column:1 / -1;order:5;min-height:42px;font-size:13px}
+  .cbt-actions #btnPrev{order:1}
+  .cbt-actions #btnClear{order:2}
+  .cbt-actions #btnMark{order:3}
+  .cbt-actions #btnPaletteAction{order:4}
+  .btn-full{display:none}
+  .btn-short{display:inline}
+}
+
+@media(max-width:600px){
+  .wrap{padding:0 14px}
+  .mast .wrap{padding-top:12px;padding-bottom:12px;gap:10px}
+  .brand .glyph{width:30px;height:30px;font-size:13px}
+  .brand b{font-size:14.5px}
+  .brand span{font-size:10px}
+  .themebtn{padding:5px 9px;font-size:11.5px}
+  .hero{padding:24px 0 18px}
+  .hero h1{font-size:clamp(22px,5.8vw,32px)}
+  .hero p{font-size:14px;margin-top:8px}
+  .hero-actions{margin-top:14px}
+  .hero-actions button{width:100%;justify-content:center}
+  .kpi{display:grid;grid-template-columns:repeat(2,1fr)}
+  .kpi div{border-right:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);padding:10px 12px}
+  .kpi div:nth-child(2n){border-right:0}
+  .kpi div:last-child{grid-column:span 2;border-bottom:0;text-align:center}
+  .sec-h{flex-direction:column;align-items:flex-start;gap:4px;margin:28px 0 12px}
+  .papers{grid-template-columns:1fr}
+  .paper{padding:14px}
+  .paper .prev{flex-direction:column;align-items:flex-start;gap:3px}
+  .instr{padding:14px 10px 30px}
+  .instr-card{padding:16px 14px}
+  .instr h2{font-size:18px}
+  .instr ol{padding-left:18px;font-size:13px}
+  .mode{padding:10px 12px}
+  .whorow{flex-direction:column;align-items:stretch;gap:6px}
+  .whorow input{min-width:0;width:100%}
+  .agree{font-size:13px;margin-top:16px;padding-top:14px}
+  .instr-actions{flex-direction:column-reverse;gap:8px}
+  .instr-actions button{width:100%;justify-content:center}
+  .cbt-top{padding:4px 8px}
+  .cbt-top .ttl{font-size:11.5px;max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cbt-top .links{gap:8px;font-size:10.5px}
+  .cbt-lang{display:none}
+  .cbt-cand .ph{width:22px;height:24px;font-size:11px}
+  .cbt-cand b{font-size:11px}
+  .cand-roll{display:none}
+  .timer-lbl{display:none}
+  .cbt-timer .clk{font-size:12.5px;padding:3px 7px}
+  .cbt-qhead{padding:5px 8px;font-size:10.5px}
+  .cbt-qhead .qn{font-size:12px}
+  .cbt-qbody{padding:10px 12px}
+  .passage{padding:9px 11px;font-size:12px}
+  .qtext{font-size:13px}
+  .opt{padding:9px 10px;font-size:13px;border-color:#d4dbe2}
+  .opt input{width:16px;height:16px}
+  .modal{padding:10px}
+  .modal-box{padding:16px 12px;max-height:92vh;overflow-y:auto}
+  .sumtab{font-size:11px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .sumtab th,.sumtab td{padding:5px 6px;white-space:nowrap}
+  .modal-actions{flex-direction:column-reverse;gap:8px}
+  .modal-actions button{width:100%;justify-content:center}
+  .res-top{flex-direction:column;align-items:stretch;gap:16px}
+  .scorebox{gap:12px}
+  .scorebox h1{font-size:20px}
+  .dial{width:90px;height:90px}
+  .dial svg{width:90px;height:90px}
+  .dial .val b{font-size:22px}
+  .res-stats{grid-template-columns:repeat(2,1fr)}
+  .res-stats div{border-bottom:1px solid var(--rule-soft);padding:9px 11px}
+  .res-stats div:nth-child(2n){border-right:0}
+  .res-stats div:last-child{grid-column:span 2;border-bottom:0}
+  .filters{gap:5px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .fbtn{white-space:nowrap;flex:none;font-size:11.5px;padding:5px 10px}
+  .rowo{grid-template-columns:1fr}
+  .watchwrap{padding:16px 12px 30px}
+  .joincard{padding:16px 14px}
+  .joinrow{flex-direction:column}
+  .joinrow input{width:100%}
+  .joinrow button{width:100%}
 }
 @media print{.mast,.filters,.startbtn,.ghostbtn,.themebtn{display:none!important}}
 </style>
@@ -424,6 +541,7 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
   </div>
 
   <div class="sec-h"><h2>Exam pattern</h2><span>Matches the SSC Stenographer Grade C &amp; D CBT</span></div>
+  <div class="table-scroll">
   <table class="pattern">
    <tr><th>Part</th><th>Subject</th><th>Questions</th><th>Marks</th><th>Palette range</th></tr>
    <tr><td>I</td><td>General Intelligence &amp; Reasoning</td><td>50</td><td>50</td><td>1&ndash;50</td></tr>
@@ -431,6 +549,7 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
    <tr><td>III</td><td>English Language &amp; Comprehension</td><td>100</td><td>100</td><td>1&ndash;100</td></tr>
    <tr><td colspan="2"><b>Total</b></td><td><b>200</b></td><td><b>200</b></td><td>120 minutes</td></tr>
   </table>
+  </div>
 
   <div class="sec-h"><h2>Choose a paper</h2><span id="attemptSummary"></span></div>
   <div class="papers" id="paperCards"></div>
@@ -457,7 +576,7 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
    <li><b>Save &amp; Next</b> records your answer and moves on. <b>Clear Response</b> removes your answer for the current question. <b>Mark for Review</b> flags a question to return to; a marked question is <i>not</i> evaluated differently &mdash; if it holds an answer, that answer still counts.</li>
    <li>Click any number in the question palette on the right to jump straight to that question.</li>
    <li>Your progress is saved in this browser as you go, so an accidental refresh will not lose your paper.</li>
-   <li>This paper is <b>invigilated</b>. When you click <b>I am ready to begin</b> your browser will ask to use your camera &mdash; the paper does not start without it. Your camera stays on throughout, your own feed sits in the corner where you can see it, and the person who set the paper can watch it live. Nothing is uploaded to this site.</li>
+   <li>This paper is <b>invigilated</b>. When you click <b>I am ready to begin</b> your browser will ask to use your camera &mdash; the paper does not start without it. Your camera stays on throughout in the background (video preview is hidden during the test to avoid distraction and can be toggled anytime), and the invigilator can watch live. Nothing is uploaded to this site.</li>
   </ol>
   <h4>Timing</h4>
   <div class="modes" id="modePick">
@@ -502,15 +621,18 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
   <div class="cbt-top">
     <div class="ttl" id="examTitle">SSC Stenographer Grade C &amp; D</div>
     <div class="links">
+      <button type="button" id="btnToggleRail" class="cbt-rail-toggle" title="Toggle Question Palette (P)">
+        <span class="rail-toggle-icon">&#9776;</span> <span id="railToggleText">Hide Panel</span>
+      </button>
       <button type="button" id="lnkInstr">Instructions</button>
-      <span>View in: <b>English</b></span>
+      <span class="cbt-lang">View in: <b>English</b></span>
     </div>
   </div>
   <div class="cbt-bar2">
-    <div class="cbt-cand"><div class="ph">&#9679;</div><div><b id="candName">Candidate</b><br>Roll No: <span class="num">2026SSCSTN0417</span></div></div>
+    <div class="cbt-cand"><div class="ph">&#9679;</div><div><b id="candName">Candidate</b><span class="cand-roll"><br>Roll No: <span class="num">2026SSCSTN0417</span></span></div></div>
     <div class="cbt-timeblock">
       <div class="cbt-secline" id="secClock" style="display:none"></div>
-      <div class="cbt-timer" id="timerWrap">Time Left <span class="clk" id="clock">02:00:00</span></div>
+      <div class="cbt-timer" id="timerWrap"><span class="timer-lbl">Time Left </span><span class="clk" id="clock">02:00:00</span></div>
     </div>
   </div>
   <div class="cbt-tabs" id="secTabs" role="tablist"></div>
@@ -524,19 +646,28 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
       <div class="cbt-qbody" id="qBody"></div>
       <div class="cbt-actions">
         <div class="grp">
-          <button class="cb cb-mark" type="button" id="btnMark">Mark for Review &amp; Next</button>
-          <button class="cb" type="button" id="btnClear">Clear Response</button>
-          <button class="cb" type="button" id="btnPrev">&laquo; Previous</button>
+          <button class="cb cb-mark" type="button" id="btnMark"><span class="btn-full">Mark for Review &amp; Next</span><span class="btn-short">Mark</span></button>
+          <button class="cb" type="button" id="btnClear"><span class="btn-full">Clear Response</span><span class="btn-short">Clear</span></button>
+          <button class="cb" type="button" id="btnPrev">&laquo; <span class="btn-full">Previous</span><span class="btn-short">Prev</span></button>
+          <button class="cb cb-palette" type="button" id="btnPaletteAction" title="Question Palette">&#9776; Palette</button>
         </div>
         <div class="grp">
           <button class="cb cb-primary" type="button" id="btnSave">Save &amp; Next &raquo;</button>
         </div>
       </div>
     </div>
+    <div class="rail-backdrop" id="railBackdrop" hidden></div>
     <div class="cbt-rail" id="rail">
+      <div class="rail-topbar">
+        <span class="rail-title">Question Palette</span>
+        <button type="button" id="btnCloseRail" class="rail-close-btn" title="Hide side panel">&times; Hide</button>
+      </div>
       <div class="pcam" id="pcam" hidden>
-        <div class="pcam-box" id="pcamBox"></div>
-        <div class="pcam-tag"><span class="rec"></span> Recording &middot; <span id="pcamName">Candidate</span></div>
+        <div class="pcam-box hide-preview" id="pcamBox"></div>
+        <div class="pcam-tag">
+          <div class="pcam-status"><span class="rec"></span> Recording &middot; <span id="pcamName">Candidate</span></div>
+          <button type="button" class="pcam-toggle-btn" id="btnCamPreview" title="Toggle camera video preview">Show preview</button>
+        </div>
         <div class="pcam-live" id="pcamLive" hidden></div>
         <button class="pcam-share" id="railShare" type="button" hidden>Share my screen</button>
       </div>
@@ -2072,6 +2203,36 @@ $("#instrBack").onclick=function(){show("home")};
 
 /* ================= EXAM ================= */
 var P=null, S=null, timer=null, fontStep=0;
+var camPreviewVisible=false, railCollapsed=false;
+
+function isMobile(){ return window.innerWidth<=820; }
+
+function setCamPreview(show){
+  camPreviewVisible=!!show;
+  var box=$("#pcamBox"), btn=$("#btnCamPreview");
+  if(box) box.classList.toggle("hide-preview", !camPreviewVisible);
+  if(btn){
+    btn.textContent = camPreviewVisible ? "Hide preview" : "Show preview";
+    btn.title = camPreviewVisible ? "Hide camera video preview" : "Show camera video preview";
+  }
+}
+
+function setRailCollapsed(collapsed){
+  railCollapsed=!!collapsed;
+  var rail=$("#rail"), backdrop=$("#railBackdrop"),
+      text=$("#railToggleText"), toggleBtn=$("#btnToggleRail"), palBtn=$("#btnPaletteAction");
+  if(rail) rail.classList.toggle("collapsed", railCollapsed);
+  if(backdrop) backdrop.hidden = railCollapsed || !isMobile();
+  if(text) text.textContent = railCollapsed ? (isMobile()?"Palette":"Show Panel") : (isMobile()?"Close":"Hide Panel");
+  if(toggleBtn){
+    toggleBtn.setAttribute("aria-expanded", String(!railCollapsed));
+    toggleBtn.classList.toggle("active", !railCollapsed && isMobile());
+  }
+  if(palBtn) palBtn.classList.toggle("active", !railCollapsed && isMobile());
+}
+
+function toggleRail(){ setRailCollapsed(!railCollapsed); }
+
 function secIdx(si){ var a=[]; P.q.forEach(function(q,i){if(q.s===si)a.push(i)}); return a; }
 function sectional(){ return !!S && S.mode==="sectional"; }
 function startExam(p,resume,mode,proctored){
@@ -2097,10 +2258,13 @@ function startExam(p,resume,mode,proctored){
     PROCTOR.begin(S.who||"Candidate");
     $("#pcam").hidden=false; $("#pcamName").textContent=S.who||"Candidate";
     PROCTOR.attach($("#pcamBox"));
+    setCamPreview(false);
   }else{
     $("#pcam").hidden=true;
     if(S.proctored && resume) S.proctorGap=1;
+    setCamPreview(false);
   }
+  setRailCollapsed(isMobile());
   show("exam");
   if(LIVE.active()){
     PROCTOR.onEvent(function(e){ LIVE.sendEvent(e); });
@@ -2233,7 +2397,8 @@ function renderPalette(si){
   list.forEach(function(gi,i){
     var st=statusOf(gi); counts[st]++;
     var b=el("button","pal "+st+(gi===S.cur?" cur":""),'<i></i><em>'+(i+1)+'</em>');
-    b.title="Question "+(i+1); b.onclick=function(){go(gi)};
+    b.title="Question "+(i+1);
+    b.onclick=function(){ go(gi); if(isMobile()) setRailCollapsed(true); };
     g.appendChild(b);
   });
   $("#palSecName").textContent=SECS[si];
@@ -2243,6 +2408,11 @@ $("#btnSave").onclick=function(){ persist(); nextQ(); };
 $("#btnPrev").onclick=function(){ var l=secIdx(curSec()), i=l.indexOf(S.cur); if(i>0)go(l[i-1]); else prevSection(); };
 $("#btnClear").onclick=function(){ delete S.ans[S.cur]; persist(); render(); };
 $("#btnMark").onclick=function(){ S.marked[S.cur]=1; persist(); nextQ(); };
+$("#btnToggleRail").onclick=toggleRail;
+$("#btnCloseRail").onclick=function(){ setRailCollapsed(true); };
+$("#btnPaletteAction").onclick=function(){ setRailCollapsed(railCollapsed?false:true); };
+$("#railBackdrop").onclick=function(){ setRailCollapsed(true); };
+$("#btnCamPreview").onclick=function(){ setCamPreview(!camPreviewVisible); };
 $("#lnkInstr").onclick=function(){
   var timing = sectional()
     ? "• Sectional timing: Reasoning "+SECMINS[0]+" min, General Awareness "+SECMINS[1]+" min, English "+SECMINS[2]+" min.\n"+
@@ -2275,7 +2445,15 @@ document.addEventListener("keydown",function(e){
   if(e.target&&/INPUT|TEXTAREA/.test(e.target.tagName))return;
   if(e.key==="ArrowRight"){e.preventDefault();nextQ()}
   if(e.key==="ArrowLeft"){e.preventDefault();$("#btnPrev").click()}
+  if((e.key==="p"||e.key==="P") && !e.ctrlKey && !e.metaKey && !e.altKey){e.preventDefault();toggleRail()}
   if(/^[1-4]$/.test(e.key)){var oi=+e.key-1; if(P.q[S.cur].o[oi]!==undefined){S.ans[S.cur]=oi;persist();render();}}
+});
+window.addEventListener("resize",function(){
+  if($("#screen-exam").classList.contains("hide"))return;
+  var backdrop=$("#railBackdrop");
+  if(backdrop) backdrop.hidden = railCollapsed || !isMobile();
+  var text=$("#railToggleText");
+  if(text) text.textContent = railCollapsed ? (isMobile()?"Palette":"Show Panel") : (isMobile()?"Close":"Hide Panel");
 });
 function startTimer(){
   clearInterval(timer);
@@ -2359,6 +2537,7 @@ function doSubmit(auto){
   lastProctor=null;
   if(PROCTOR.running()){ PROCTOR.end(); lastProctor=PROCTOR.data(); }
   $("#pcam").hidden=true;
+  setCamPreview(false);
   if(sectional() && S.secUsed[S.asec]==null && S.secStart[S.asec]!=null){
     S.secUsed[S.asec]=Math.max(0,Math.min(Date.now(),S.secEnds[S.asec])-S.secStart[S.asec]);
   }
