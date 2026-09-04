@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -512,7 +513,116 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
   .joinrow input{width:100%}
   .joinrow button{width:100%}
 }
-@media print{.mast,.filters,.startbtn,.ghostbtn,.themebtn{display:none!important}}
+@media print{
+  .mast,.filters,.startbtn,.ghostbtn,.themebtn,.invig-mast,.invig-tabs,.records-toolbar,.invig-room-bar{display:none!important}
+  #modalRecordDetail:not(.hide){position:static!important;display:block!important;background:transparent!important;padding:0!important}
+  #modalRecordDetail .record-detail-box{box-shadow:none!important;border:none!important;max-width:100%!important;max-height:none!important;overflow:visible!important;padding:0!important}
+  #modalRecordDetail .modal-actions, #modalRecordDetail #btnCloseRecModal{display:none!important}
+  body:has(#modalRecordDetail:not(.hide)) #paneLive, body:has(#modalRecordDetail:not(.hide)) #paneRecords{display:none!important}
+}
+
+/* ============ INVIGILATOR PORTAL & DASHBOARD ============ */
+.invig-btn{font-weight:600;border-color:var(--accent);color:var(--accent);display:inline-flex;align-items:center;gap:6px}
+.invig-btn:hover{background:var(--accent-soft)}
+.invig-mast{padding-top:12px;padding-bottom:12px}
+.invig-mast-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.invig-user-badge{font-size:12.5px;padding:4px 10px;border-radius:20px;background:var(--accent-soft);
+  color:var(--accent-ink);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);font-weight:600}
+.invig-logout-btn{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+.invig-logout-btn:hover{background:var(--bad-soft);border-color:var(--bad)}
+
+.invig-content-wrap{padding:24px 22px 50px}
+.invig-tabs{display:flex;gap:10px;border-bottom:2px solid var(--rule);margin-bottom:20px}
+.invig-tab{background:transparent;border:0;border-bottom:3px solid transparent;padding:10px 18px;
+  font-size:14.5px;font-weight:600;color:var(--ink-2);cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  position:relative;bottom:-2px;transition:color .2s}
+.invig-tab:hover{color:var(--ink)}
+.invig-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.invig-pill{background:var(--rule);color:var(--ink);font-size:11px;font-family:var(--f-num);
+  padding:2px 7px;border-radius:12px;font-weight:600}
+.invig-tab.active .invig-pill{background:var(--accent);color:#fff}
+
+.invig-pane{display:flex;flex-direction:column;gap:18px}
+
+.invig-room-bar{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.room-info{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.room-dot{width:9px;height:9px;border-radius:50%;background:var(--good);display:inline-block;animation:recblink 1.8s infinite}
+.room-sep{color:var(--ink-3)}
+.room-settings{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.invig-switch-label{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);cursor:pointer}
+.invig-switch-label input{accent-color:var(--accent)}
+
+.invig-live-wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+@media(max-width:960px){.invig-live-wrap{grid-template-columns:1fr}}
+
+.invig-stage-col{display:flex;flex-direction:column;gap:14px}
+.invig-cand-banner{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.cb-left h3{font-size:18px;margin-bottom:2px}
+.cb-sub{font-size:13px;color:var(--ink-2)}
+.invig-quick-actions{display:flex;gap:8px;flex-wrap:wrap}
+.invig-act-btn{font:inherit;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:6px;
+  border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;transition:all .15s ease}
+.invig-act-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.invig-act-btn.cam{background:var(--accent-soft);color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.invig-act-btn.cam:hover{background:var(--accent);color:#fff}
+.invig-act-btn.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,transparent)}
+.invig-act-btn.warn:hover{background:var(--warn-soft)}
+
+.invig-video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:0}
+.invig-side-feed{max-height:680px}
+
+/* Records Tab Styles */
+.records-kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.rkpi{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow)}
+.rkpi-title{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:4px}
+.rkpi-val{display:block;font-family:var(--f-num);font-size:22px;color:var(--accent)}
+
+.records-toolbar{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.records-search-grp{flex:1 1 240px}
+.records-search-grp input{width:100%;font:inherit;font-size:13.5px;padding:8px 12px;border:1px solid var(--rule);
+  border-radius:6px;background:var(--paper);color:var(--ink)}
+.records-search-grp input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.records-filters-grp{display:flex;gap:8px;flex-wrap:wrap}
+.records-filters-grp select{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--rule);
+  border-radius:6px;background:var(--paper);color:var(--ink)}
+.records-actions-grp{display:flex;gap:8px;flex-wrap:wrap}
+.ghostbtn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+.ghostbtn.danger:hover{background:var(--bad-soft);border-color:var(--bad)}
+
+.records-table-wrap{background:var(--card);border:1px solid var(--rule);border-radius:8px;overflow-x:auto}
+table.records-table{width:100%;border-collapse:collapse;font-size:13px}
+table.records-table th{background:var(--accent-soft);color:var(--accent-ink);text-align:left;padding:10px 12px;
+  font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;white-space:nowrap}
+table.records-table td{padding:10px 12px;border-top:1px solid var(--rule-soft);vertical-align:middle}
+table.records-table tr:hover td{background:color-mix(in srgb,var(--accent-soft) 40%,transparent)}
+.rec-tag{display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:12px;font-weight:600;text-transform:uppercase}
+.rec-tag.clean{background:var(--good-soft);color:var(--good);border:1px solid color-mix(in srgb,var(--good) 30%,transparent)}
+.rec-tag.flagged{background:var(--bad-soft);color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 30%,transparent)}
+
+/* CBT Camera Alert Banner */
+.cbt-cam-alert{background:#ffebee;border-bottom:2px solid #d32f2f;color:#b71c1c;padding:7px 14px;
+  font-family:Verdana,sans-serif;font-size:12px;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:25;animation:alertpulse 2s infinite}
+.cbt-cam-alert-content{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.cbt-cam-alert-btn{background:#d32f2f;color:#fff;border:0;border-radius:4px;padding:4px 10px;
+  font-size:11px;font-weight:bold;cursor:pointer}
+.cbt-cam-alert-btn:hover{background:#b71c1c}
+.pcam-reconnect-btn{margin-top:6px;width:100%;font:inherit;font-size:10.5px;font-family:Verdana,sans-serif;
+  font-weight:bold;padding:5px 8px;border:1px solid #d32f2f;background:#ffebee;color:#b71c1c;border-radius:3px;cursor:pointer}
+.pcam-reconnect-btn:hover{background:#ffcdd2}
+@keyframes alertpulse{0%,100%{background:#ffebee}50%{background:#ffcdd2}}
+
+/* Invigilator Login Modal */
+.invig-login-box{max-width:400px}
+.login-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.login-field label{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.login-field input{font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--rule);
+  border-radius:6px;background:var(--paper);color:var(--ink)}
+.login-field input:focus{outline:2px solid var(--accent);outline-offset:1px}
 </style>
 
 </head>
@@ -522,7 +632,10 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
 <div id="screen-home">
  <div class="mast"><div class="wrap">
    <div class="brand"><div class="glyph">St</div><div><b>SSC Steno Mock Arena</b><span>Grade C &amp; D &middot; Computer Based Test</span></div></div>
-   <button class="themebtn" id="themeBtn" type="button">Dark mode</button>
+   <div style="display:flex;gap:8px;align-items:center">
+     <button class="ghostbtn invig-btn" id="btnHomeInvig" type="button">🛡️ Invigilator Portal</button>
+     <button class="themebtn" id="themeBtn" type="button">Dark mode</button>
+   </div>
  </div></div>
 
  <div class="wrap">
@@ -530,7 +643,10 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
    <h1>Three full-length expected papers,<br>in the real CBT interface.</h1>
    <p>Each paper runs 200 questions in 120 minutes with live section tabs, the colour-coded question palette, mark-for-review and a running timer &mdash; then scores you with the actual 0.25 negative marking and shows every mistake with the correct answer and why.</p>
    <p class="heronote">Sit each paper either on <b>sectional timing</b> &mdash; Reasoning 30 min, General Awareness 30 min, English 60 min, each section closing on its own clock &mdash; or on <b>one 120-minute clock</b> with all three sections open, which is how the real CBT is run. You choose before you begin.</p>
-   <div class="hero-actions"><button class="ghostbtn" id="goWatch" type="button">Watching someone? Enter their live code</button></div>
+   <div class="hero-actions" style="display:flex;gap:10px;flex-wrap:wrap">
+     <button class="startbtn" id="goInvigilator" type="button" style="background:#0b3c6b">🛡️ Invigilator Dashboard (admin)</button>
+     <button class="ghostbtn" id="goWatch" type="button">Live Code Room</button>
+   </div>
    <div class="kpi">
      <div><b>3</b><span>Full papers</span></div>
      <div><b>600</b><span>Questions</span></div>
@@ -635,6 +751,12 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
       <div class="cbt-timer" id="timerWrap"><span class="timer-lbl">Time Left </span><span class="clk" id="clock">02:00:00</span></div>
     </div>
   </div>
+  <div class="cbt-cam-alert" id="cbtCamAlert" hidden>
+    <div class="cbt-cam-alert-content">
+      <span>⚠️ <b>Camera disconnected!</b> Test requires camera to stay active.</span>
+      <button type="button" class="cbt-cam-alert-btn" id="btnAlertReconnect">Turn Camera On</button>
+    </div>
+  </div>
   <div class="cbt-tabs" id="secTabs" role="tablist"></div>
   <div class="cbt-body">
     <div class="cbt-qpane">
@@ -665,10 +787,11 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
       <div class="pcam" id="pcam" hidden>
         <div class="pcam-box hide-preview" id="pcamBox"></div>
         <div class="pcam-tag">
-          <div class="pcam-status"><span class="rec"></span> Recording &middot; <span id="pcamName">Candidate</span></div>
+          <div class="pcam-status"><span class="rec" id="pcamRecDot"></span> <span id="pcamStatusText">Recording</span> &middot; <span id="pcamName">Candidate</span></div>
           <button type="button" class="pcam-toggle-btn" id="btnCamPreview" title="Toggle camera video preview">Show preview</button>
         </div>
         <div class="pcam-live" id="pcamLive" hidden></div>
+        <button class="pcam-reconnect-btn" id="railCamReconnect" type="button" hidden>⚠️ Turn Camera On</button>
         <button class="pcam-share" id="railShare" type="button" hidden>Share my screen</button>
       </div>
       <div class="legend" id="legend"></div>
@@ -737,13 +860,240 @@ footer{margin:52px 0 34px;padding-top:18px;border-top:1px solid var(--rule);font
          <div class="wl-vid" id="wlCam"><span class="wl-ph">Waiting for the camera&hellip;</span></div>
          <div class="wl-vid wide" id="wlScreen" hidden><span class="wl-ph">No screen shared</span></div>
        </div>
-     </div>
-     <div class="wl-side">
+  <div class="wl-side">
        <div class="wl-head">Live activity</div>
        <div class="wl-feed" id="wlFeed"></div>
      </div>
-   </div>
+  </div>
  </div>
+</div>
+
+<!-- ================= INVIGILATOR DASHBOARD ================= -->
+<div id="screen-invigilator" class="hide">
+  <div class="mast"><div class="wrap invig-mast">
+    <div class="brand">
+      <div class="glyph" style="background:#0b3c6b">🛡️</div>
+      <div><b>SSC Steno Invigilator Portal</b><span>Admin Monitoring &amp; Records</span></div>
+    </div>
+    <div class="invig-mast-actions">
+      <span class="invig-user-badge">👤 Admin (Logged in)</span>
+      <button class="themebtn" id="themeBtnInvig" type="button">Dark mode</button>
+      <button class="ghostbtn" id="invigExitToArena" type="button">Candidate Arena</button>
+      <button class="ghostbtn invig-logout-btn" id="invigLogout" type="button">Log out</button>
+    </div>
+  </div></div>
+
+  <div class="wrap invig-content-wrap">
+    <!-- Sub-navigation tabs: Live Monitoring vs Records -->
+    <div class="invig-tabs">
+      <button class="invig-tab active" id="tabBtnLive" type="button">
+        🔴 Live Test Monitoring <span class="invig-pill" id="liveCandidateCount">0</span>
+      </button>
+      <button class="invig-tab" id="tabBtnRecords" type="button">
+        📋 Candidate Test Records <span class="invig-pill" id="totalRecordsCount">0</span>
+      </button>
+    </div>
+
+    <!-- PANE 1: LIVE MONITORING -->
+    <div class="invig-pane" id="paneLive">
+      <div class="invig-room-bar">
+        <div class="room-info">
+          <span class="room-dot"></span>
+          <span>Live Room: <b class="num">steno2026</b></span>
+          <span class="room-sep">&middot;</span>
+          <span id="invigRoomStatusText">Listening for candidates</span>
+        </div>
+        <div class="room-settings">
+          <label class="invig-switch-label">
+            <input type="checkbox" id="chkAutoRequestCam" checked>
+            <span>Auto-request camera if dropped</span>
+          </label>
+          <button class="ghostbtn sm" id="btnRefreshWatch" type="button">Reconnect Room</button>
+        </div>
+      </div>
+
+      <!-- Candidate seats selection bar -->
+      <div class="wl-seats" id="invigSeats"></div>
+
+      <!-- Live Monitoring Active Stage -->
+      <div class="invig-live-wrap" id="invigLiveWrap">
+        <!-- Main Stage -->
+        <div class="invig-stage-col">
+          <!-- Candidate Banner Info -->
+          <div class="invig-cand-banner" id="invigCandBanner">
+            <div class="cb-left">
+              <h3 id="invigCandName">Select an Active Candidate</h3>
+              <div class="cb-sub" id="invigCandMeta">Candidates sitting a test will appear in the seats above automatically.</div>
+            </div>
+            <div class="cb-right">
+              <div class="invig-quick-actions" id="invigQuickActions">
+                <button type="button" class="invig-act-btn cam" id="btnInvigTurnOnCam" title="Send command to turn on candidate camera">
+                  📹 Turn On Camera
+                </button>
+                <button type="button" class="invig-act-btn screen" id="btnInvigReqScreen" title="Ask candidate to share screen">
+                  🖥️ Request Screen
+                </button>
+                <button type="button" class="invig-act-btn warn" id="btnInvigSendWarn" title="Send message or warning to candidate">
+                  ⚠️ Send Alert
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Tiles -->
+          <div class="wl-stats" id="invigStats"></div>
+
+          <!-- Video Feeds: Camera and Screen -->
+          <div class="wl-stage invig-video-grid">
+            <div class="wl-vid" id="invigCam">
+              <span class="wl-ph">Waiting for candidate camera&hellip;</span>
+            </div>
+            <div class="wl-vid wide" id="invigScreen" hidden>
+              <span class="wl-ph">Candidate screen not shared</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Real-time Event Feed -->
+        <div class="wl-side invig-side-feed">
+          <div class="wl-head">Live Activity &amp; Integrity Feed</div>
+          <div class="wl-feed" id="invigFeed">
+            <div class="empty">The room is listening. As soon as a candidate starts a paper, their camera and activity feed will stream here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANE 2: TEST RECORDS -->
+    <div class="invig-pane hide" id="paneRecords">
+      <!-- KPI Stats Row -->
+      <div class="records-kpi-row">
+        <div class="rkpi">
+          <span class="rkpi-title">Total Tests Given</span>
+          <b class="rkpi-val" id="kpiTotalTests">0</b>
+        </div>
+        <div class="rkpi">
+          <span class="rkpi-title">Average Marks</span>
+          <b class="rkpi-val" id="kpiAvgScore">0.0</b>
+        </div>
+        <div class="rkpi">
+          <span class="rkpi-title">Highest Score</span>
+          <b class="rkpi-val" id="kpiHighScore">0 / 200</b>
+        </div>
+        <div class="rkpi">
+          <span class="rkpi-title">Flagged for Integrity</span>
+          <b class="rkpi-val" style="color:var(--bad)" id="kpiFlaggedTests">0</b>
+        </div>
+      </div>
+
+      <!-- Controls: Search, Filters, Actions -->
+      <div class="records-toolbar">
+        <div class="records-search-grp">
+          <input type="text" id="recSearchInput" placeholder="🔍 Search candidate name, roll no, paper..." spellcheck="false">
+        </div>
+        <div class="records-filters-grp">
+          <select id="recFilterPaper">
+            <option value="all">All Papers</option>
+            <option value="p1">Paper 1</option>
+            <option value="p2">Paper 2</option>
+            <option value="p3">Paper 3</option>
+          </select>
+          <select id="recFilterStatus">
+            <option value="all">All Integrity Status</option>
+            <option value="clean">Clean Only</option>
+            <option value="flagged">Flagged Only</option>
+          </select>
+        </div>
+        <div class="records-actions-grp">
+          <button class="ghostbtn sm" id="btnExportJSON" type="button">📥 Export JSON</button>
+          <button class="ghostbtn sm" id="btnExportCSV" type="button">📥 Export CSV</button>
+          <button class="ghostbtn sm danger" id="btnClearRecords" type="button">🗑️ Clear All</button>
+        </div>
+      </div>
+
+      <!-- Records Table -->
+      <div class="table-scroll records-table-wrap">
+        <table class="pattern records-table" id="tblRecords">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Candidate &amp; Roll</th>
+              <th>Paper</th>
+              <th>Date &amp; Time</th>
+              <th>Score (/200)</th>
+              <th>Time Used</th>
+              <th>Reasoning</th>
+              <th>GA</th>
+              <th>English</th>
+              <th>Integrity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="recEmptyMessage" class="empty hide">No candidate test records found matching your filter criteria.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODALS ================= -->
+<!-- Invigilator Login Modal -->
+<div class="modal hide" id="modalInvigLogin">
+  <div class="modal-box invig-login-box">
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:38px;line-height:1;margin-bottom:6px">🛡️</div>
+      <h3 style="margin-bottom:4px">Invigilator Login</h3>
+      <p style="margin:0;font-size:13px;color:var(--ink-2)">Log in to monitor live tests and inspect candidate test records</p>
+    </div>
+    <form id="formInvigLogin" onsubmit="return false;">
+      <div class="login-field">
+        <label for="invigUser">Username</label>
+        <input type="text" id="invigUser" placeholder="admin" value="admin" autocomplete="username" required spellcheck="false">
+      </div>
+      <div class="login-field">
+        <label for="invigPass">Password</label>
+        <input type="password" id="invigPass" placeholder="steno2026" value="steno2026" autocomplete="current-password" required>
+      </div>
+      <div class="beginerr hide" id="invigLoginErr"></div>
+      <div class="modal-actions" style="margin-top:18px">
+        <button class="ghostbtn" type="button" id="btnCancelInvigLogin">Cancel</button>
+        <button class="startbtn" type="submit" id="btnSubmitInvigLogin">Sign In</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Test Record Detail Modal -->
+<div class="modal hide" id="modalRecordDetail">
+  <div class="modal-box record-detail-box" style="max-width:860px;max-height:92vh;overflow-y:auto">
+    <div class="modal-head" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--rule);padding-bottom:10px">
+      <h3 style="margin:0" id="recModalTitle">Candidate Test Record</h3>
+      <button type="button" class="ghostbtn sm" id="btnCloseRecModal">&times; Close</button>
+    </div>
+    <div id="recModalBody"></div>
+    <div class="modal-actions" style="margin-top:18px">
+      <button class="ghostbtn" type="button" id="btnRecModalPrint">🖨️ Print Scorecard</button>
+      <button class="startbtn" type="button" id="btnRecModalClose2">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Candidate Prompt Modal (For gesture activation or invigilator notices) -->
+<div class="modal hide" id="modalCandidatePrompt">
+  <div class="modal-box" style="max-width:440px;text-align:center">
+    <div style="font-size:36px;margin-bottom:8px" id="candPromptIcon">📹</div>
+    <h3 id="candPromptTitle">Camera Activation Requested</h3>
+    <p id="candPromptDesc" style="color:var(--ink-2);font-size:13.5px;margin:10px 0 18px">
+      Your invigilator has requested that your camera be turned on.
+    </p>
+    <div class="modal-actions" style="justify-content:center;gap:10px">
+      <button class="ghostbtn" type="button" id="btnCandPromptDismiss">Dismiss</button>
+      <button class="startbtn" type="button" id="btnCandPromptAction">Turn Camera On</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1468,14 +1818,15 @@ var PROCTOR = window.PROCTOR = (function(){
 "use strict";
 
 var SHOT_W=260, SHOT_H=195, SHOT_Q=0.52;
-var PERIOD_MS=60000;       /* routine snapshot cadence */
+var PERIOD_MS=15000;       /* routine snapshot cadence & camera health check */
 var EVENT_THROTTLE=9000;   /* don't burst snapshots on repeated events */
 var MAX_SHOTS=140;         /* keeps a 2-hour report to roughly 1.5 MB */
 
 var stream=null, video=null, canvas=null, ctx=null,
     shots=[], events=[], ref=null, tickId=null, lastShot=0,
     running=false, startedAt=0, name="", blurAt=0, hidden=0, hiddenMs=0,
-    onChange=null;
+    onChange=null, onCamStatus=null, hostEl=null,
+    autoRestoreTimer=null, isRestoring=false;
 
 function supported(){
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia &&
@@ -1484,47 +1835,127 @@ function supported(){
 function now(){ return Date.now(); }
 function rel(t){ return Math.max(0,Math.round(((t||now())-startedAt)/1000)); }
 
+function notifyCamStatus(isLive, s){
+  if(onCamStatus){
+    try{ onCamStatus(isLive, s); }catch(e){}
+  }
+}
+
+function handleCameraDrop(reason){
+  log("camera_off", reason || "The camera feed stopped.");
+  notifyCamStatus(false, null);
+  if(running){
+    scheduleAutoRestore(1000);
+  }
+}
+
+function bindTrackListeners(s){
+  if(!s) return;
+  s.getVideoTracks().forEach(function(t){
+    t.addEventListener("ended", function(){
+      handleCameraDrop("The camera feed stopped.");
+    });
+    t.addEventListener("mute", function(){
+      handleCameraDrop("The camera feed was muted/interrupted.");
+    });
+  });
+}
+
+function scheduleAutoRestore(delay){
+  if(!running || isRestoring) return;
+  clearTimeout(autoRestoreTimer);
+  autoRestoreTimer = setTimeout(function(){
+    if(!running || cameraLive()) return;
+    restoreCamera().catch(function(){
+      /* if hands-free restore failed, try again in 5s */
+      if(running && !cameraLive()){
+        scheduleAutoRestore(5000);
+      }
+    });
+  }, delay || 1500);
+}
+
 /* ---------- camera ---------- */
+function initMediaStream(s, isReconnection){
+  // Stop previous stream if different
+  if(stream && stream !== s){
+    try{ stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  }
+  stream=s;
+  if(!video){
+    video=document.createElement("video");
+    video.autoplay=true; video.muted=true; video.playsInline=true;
+    video.setAttribute("playsinline","");
+  }
+  video.srcObject=s;
+  if(!canvas){
+    canvas=document.createElement("canvas"); canvas.width=SHOT_W; canvas.height=SHOT_H;
+    ctx=canvas.getContext("2d");
+  }
+  bindTrackListeners(s);
+  if(hostEl) attach(hostEl);
+  if(isReconnection){
+    log("camera_restored","The camera feed was successfully reconnected.");
+    snap("camera_restored", true);
+  }
+  notifyCamStatus(true, s);
+  return new Promise(function(res){
+    if(video.readyState>=2){
+      video.play()["catch"](function(){});
+      return res(s);
+    }
+    video.onloadedmetadata=function(){ video.play()["catch"](function(){}); res(s); };
+    setTimeout(function(){ video.play()["catch"](function(){}); res(s); }, 2000);
+  });
+}
+
 function requestCamera(){
   if(!supported()) return Promise.reject({code:"unsupported",
     message:"This browser cannot reach a camera from a web page."});
   return navigator.mediaDevices.getUserMedia({
       video:{width:{ideal:640},height:{ideal:480},facingMode:"user"}, audio:false })
     .then(function(s){
-      stream=s;
-      video=document.createElement("video");
-      video.autoplay=true; video.muted=true; video.playsInline=true;
-      video.setAttribute("playsinline","");
-      video.srcObject=s;
-      canvas=document.createElement("canvas"); canvas.width=SHOT_W; canvas.height=SHOT_H;
-      ctx=canvas.getContext("2d");
-      /* the candidate can revoke from the browser chrome at any time; that is
-         an integrity event in its own right, so notice it rather than crash */
-      s.getVideoTracks().forEach(function(t){
-        t.addEventListener("ended",function(){ log("camera_off","The camera feed stopped."); });
-      });
-      return new Promise(function(res){
-        if(video.readyState>=2) return res(s);
-        video.onloadedmetadata=function(){ video.play()["catch"](function(){}); res(s); };
-        setTimeout(function(){res(s)},2500);
-      });
+      return initMediaStream(s, false);
     });
 }
+
+function restoreCamera(force){
+  if(isRestoring && stream && cameraLive()) return Promise.resolve(stream);
+  isRestoring = true;
+  if(!supported()){
+    isRestoring = false;
+    return Promise.reject({code:"unsupported", message:"Camera unsupported"});
+  }
+  return navigator.mediaDevices.getUserMedia({
+      video:{width:{ideal:640},height:{ideal:480},facingMode:"user"}, audio:false })
+    .then(function(s){
+      isRestoring = false;
+      clearTimeout(autoRestoreTimer);
+      return initMediaStream(s, true);
+    }).catch(function(err){
+      isRestoring = false;
+      notifyCamStatus(false, null);
+      throw err;
+    });
+}
+
 function cameraLive(){
   if(!stream) return false;
   var t=stream.getVideoTracks()[0];
   return !!t && t.readyState==="live";
 }
 function attach(host){
-  if(!video||!host) return;
-  host.innerHTML="";
+  hostEl = host || hostEl;
+  if(!video||!hostEl) return;
+  hostEl.innerHTML="";
   video.className="pcam-v";
-  host.appendChild(video);
+  hostEl.appendChild(video);
   video.play()["catch"](function(){});
 }
 function release(){
+  clearTimeout(autoRestoreTimer);
   if(stream){ stream.getTracks().forEach(function(t){ try{t.stop()}catch(e){} }); }
-  stream=null; video=null;
+  stream=null; video=null; hostEl=null;
 }
 
 /* ---------- capture ---------- */
@@ -1532,7 +1963,6 @@ function grab(reason){
   if(!ctx||!video||!cameraLive()) return null;
   if(!video.videoWidth) return null;
   try{
-    /* cover-fit the frame so faces are not squashed by an odd aspect ratio */
     var vw=video.videoWidth, vh=video.videoHeight,
         s=Math.max(SHOT_W/vw, SHOT_H/vh),
         dw=vw*s, dh=vh*s;
@@ -1540,8 +1970,6 @@ function grab(reason){
     return canvas.toDataURL("image/jpeg",SHOT_Q);
   }catch(e){ return null; }
 }
-/* Thin the oldest routine snapshots first so a long paper never grows past
-   the cap, while every snapshot tied to an event survives. */
 function thin(){
   if(shots.length<=MAX_SHOTS) return;
   for(var i=0;i<shots.length && shots.length>MAX_SHOTS;i++){
@@ -1593,8 +2021,6 @@ function watch(){
     on(document,k,function(){ log(k,"Used "+k+" during the paper."); snap(k); });
   });
   on(document,"contextmenu",function(){ log("contextmenu","Opened the right-click menu."); });
-  /* A large sudden viewport change often means a window was split or dev tools
-     were opened. It is a weak signal and the report labels it as one. */
   var lw=window.innerWidth, lh=window.innerHeight, rt=null;
   on(window,"resize",function(){
     clearTimeout(rt);
@@ -1615,7 +2041,13 @@ function begin(candidate,change){
   ref=grab("reference");
   log("start","Paper started with the camera on.");
   watch();
-  tickId=setInterval(function(){ snap("routine"); if(!cameraLive()) log("camera_off","The camera feed is no longer live."); }, PERIOD_MS);
+  tickId=setInterval(function(){
+    snap("routine");
+    if(!cameraLive()){
+      log("camera_off","The camera feed is no longer live.");
+      scheduleAutoRestore(1000);
+    }
+  }, PERIOD_MS);
   setTimeout(function(){ snap("routine",true); },1500);
   return true;
 }
@@ -1625,6 +2057,7 @@ function end(){
   log("finish","Paper submitted.");
   running=false;
   clearInterval(tickId); tickId=null;
+  clearTimeout(autoRestoreTimer);
   unwatch(); release();
 }
 function summary(){
@@ -1642,8 +2075,9 @@ function summary(){
 }
 function data(){ return {name:name, ref:ref, shots:shots.slice(), events:events.slice(), summary:summary()}; }
 
-return { supported:supported, requestCamera:requestCamera, cameraLive:cameraLive,
-         stream:function(){return stream}, onEvent:function(fn){relay=fn},
+return { supported:supported, requestCamera:requestCamera, restoreCamera:restoreCamera,
+         cameraLive:cameraLive, stream:function(){return stream}, onEvent:function(fn){relay=fn},
+         onCameraStatus:function(fn){onCamStatus=fn;},
          attach:attach, release:release, begin:begin, end:end, snap:snap, log:log,
          data:data, summary:summary, running:function(){return running} };
 })();
@@ -1673,12 +2107,14 @@ var LABEL={ start:"Started", finish:"Submitted",
   window_blur:"Window lost focus", window_focus:"Window refocused",
   fullscreen_exit:"Left full screen", fullscreen_enter:"Entered full screen",
   copy:"Copied", cut:"Cut", paste:"Pasted", contextmenu:"Right-click menu",
-  resize:"Window resized sharply", camera_off:"Camera stopped",
+  resize:"Window resized sharply", camera_off:"Camera stopped", camera_restored:"Camera reconnected",
+  cmd_warning:"Invigilator alert", cmd_cam:"Camera turned on by invigilator",
   screenshare_start:"Started sharing screen", screenshare_end:"Stopped sharing screen",
   watcher_joined:"Watcher joined", finish_live:"Finished" };
 /* Severity drives the colour of a row; it is a reading aid, not a verdict. */
 var SEV={ tab_hidden:"hi", paste:"hi", camera_off:"hi", screenshare_end:"mid",
-          fullscreen_exit:"mid", resize:"mid", copy:"mid", cut:"mid", contextmenu:"mid" };
+          fullscreen_exit:"mid", resize:"mid", copy:"mid", cut:"mid", contextmenu:"mid",
+          cmd_warning:"mid", camera_restored:"good", cmd_cam:"good" };
 
 function verdictLines(sm){
   var out=[];
@@ -1850,7 +2286,7 @@ function mkPeer(id){
 
 /* ================= CANDIDATE (dials out) ================= */
 var C={ peer:null, conn:null, calls:[], screen:null, code:"", name:"Candidate",
-        state:null, onStatus:null, retry:null, live:false, stopped:false };
+        state:null, onStatus:null, onCommand:null, retry:null, live:false, stopped:false };
 
 function cStatus(){
   if(C.onStatus) C.onStatus({connected:C.live, screen:screenLive(), code:C.code});
@@ -1863,12 +2299,53 @@ function callWatcher(kind,stream){
   if(!C.peer||!C.conn||!stream) return;
   try{ C.calls.push(C.peer.call(C.conn.peer,stream,{metadata:{kind:kind}})); }catch(e){}
 }
+function updateCameraStream(newStream){
+  if(!newStream) return;
+  C.calls = C.calls.filter(function(call){
+    if(call && call.metadata && call.metadata.kind==="camera"){
+      try{ call.close(); }catch(e){}
+      return false;
+    }
+    return true;
+  });
+  if(C.live && C.conn && C.peer){
+    callWatcher("camera", newStream);
+    say({k:"cam_status", live:true});
+  }
+}
 function sendStreams(){
   var cam=window.PROCTOR&&PROCTOR.stream();
   if(cam) callWatcher("camera",cam);
   if(screenLive()) callWatcher("screen",C.screen);
 }
 function say(msg){ try{ if(C.conn&&C.conn.open) C.conn.send(msg); }catch(e){} }
+
+function handleCandidateData(m){
+  if(!m || !m.k) return;
+  if(m.k==="cmd"){
+    if(m.action==="turn_on_camera" || m.action==="reconnect_camera"){
+      if(window.PROCTOR){
+        PROCTOR.restoreCamera().then(function(s){
+          updateCameraStream(s);
+          say({k:"cam_status", live:true});
+          say({k:"cmd_ack", action:"turn_on_camera", ok:true});
+          if(C.onCommand) C.onCommand({action:"turn_on_camera", ok:true});
+        })["catch"](function(err){
+          say({k:"cmd_ack", action:"turn_on_camera", ok:false, err:(err&&err.name)||"gesture_needed"});
+          if(C.onCommand) C.onCommand({action:"turn_on_camera", ok:false, reason:"needs_gesture"});
+        });
+      }
+    } else if(m.action==="request_screen" || m.action==="request_screenshare"){
+      if(C.onCommand) C.onCommand({action:"request_screenshare"});
+    } else if(m.action==="warning" || m.action==="alert"){
+      if(C.onCommand) C.onCommand({action:"warning", message:m.message||"Please follow exam instructions."});
+    } else if(m.action==="get_records"){
+      if(window.RECORDS){
+        say({k:"records_sync", records:RECORDS.getAll()});
+      }
+    }
+  }
+}
 
 function dial(){
   if(C.stopped||C.live) return;
@@ -1885,10 +2362,13 @@ function dial(){
   conn.on("open",function(){
     if(settled)return; settled=true; clearTimeout(to);
     C.conn=conn; C.live=true; cStatus();
-    say({k:"hello", name:C.name});
+    say({k:"hello", name:C.name, records: (window.RECORDS ? RECORDS.getAll() : [])});
     if(C.state) say({k:"state", s:C.state});
     sendStreams();
     if(window.PROCTOR&&PROCTOR.running()) PROCTOR.log("watcher_joined","The invigilator is now watching live.");
+  });
+  conn.on("data",function(m){
+    handleCandidateData(m);
   });
   conn.on("close",function(){
     if(C.conn===conn){ C.conn=null; C.live=false; cStatus(); }
@@ -1906,12 +2386,12 @@ function scheduleRetry(){
 }
 /* Start dialling and keep dialling. Resolves once our own peer is up — not
    once the watcher answers, which may be much later or never. */
-function connect(code,name,onStatus){
-  C.stopped=false; C.code=code; C.name=name||"Candidate"; C.onStatus=onStatus||null;
+function connect(code,name,onStatus,onCommand){
+  C.stopped=false; C.code=code; C.name=name||"Candidate";
+  C.onStatus=onStatus||null; C.onCommand=onCommand||null;
   return mkPeer(null).then(function(p){
     C.peer=p;
     p.on("error",function(err){
-      /* the watcher not being there yet is the normal case, not a failure */
       if(err&&err.type==="peer-unavailable"){ scheduleRetry(); return; }
       scheduleRetry();
     });
@@ -1940,7 +2420,7 @@ function share(){
 }
 function setState(s){ C.state=s; say({k:"state", s:s}); }
 function sendEvent(e){ say({k:"event", e:e}); }
-function finish(r){ say({k:"done", r:r}); }
+function finish(r, record){ say({k:"done", r:r, record:record}); }
 function stop(){
   C.stopped=true; clearTimeout(C.retry);
   C.calls.forEach(function(c){ try{c.close()}catch(e){} });
@@ -1948,12 +2428,22 @@ function stop(){
   if(C.screen) C.screen.getTracks().forEach(function(t){ try{t.stop()}catch(e){} });
   if(C.peer){ try{C.peer.destroy()}catch(e){} }
   C={peer:null,conn:null,calls:[],screen:null,code:C.code,name:C.name,
-     state:null,onStatus:C.onStatus,retry:null,live:false,stopped:true};
+     state:null,onStatus:C.onStatus,onCommand:C.onCommand,retry:null,live:false,stopped:true};
   cStatus();
 }
 
 /* ================= INVIGILATOR (holds the fixed id) ================= */
 var W={ peer:null, code:"", h:null, seats:{} };
+
+function sendCommand(peerId, action, extra){
+  var s=W.seats[peerId];
+  if(s && s.conn && s.conn.open){
+    var payload={k:"cmd", action:action};
+    if(extra) for(var k in extra) payload[k]=extra[k];
+    try{ s.conn.send(payload); return true; }catch(e){ return false; }
+  }
+  return false;
+}
 
 function watch(code,h){
   var c=String(code||"").replace(/[^0-9A-Za-z]/g,"");
@@ -1964,13 +2454,23 @@ function watch(code,h){
     W.peer=p;
     p.on("connection",function(conn){
       conn.on("open",function(){
-        W.seats[conn.peer]=W.seats[conn.peer]||{id:conn.peer,name:"Candidate",conn:conn};
+        W.seats[conn.peer]=W.seats[conn.peer]||{id:conn.peer,name:"Candidate",conn:conn,cam:null,screen:null,camLive:false};
         if(W.h.onJoin) W.h.onJoin(conn.peer);
       });
       conn.on("data",function(m){
         if(!m||!m.k) return;
         var seat=W.seats[conn.peer];
-        if(m.k==="hello" && seat) seat.name=m.name||"Candidate";
+        if(m.k==="hello" && seat){
+          seat.name=m.name||"Candidate";
+          if(m.records && W.h.onRecordsSync) W.h.onRecordsSync(conn.peer, m.records);
+        }
+        if(m.k==="cam_status" && seat){
+          seat.camLive=!!m.live;
+          if(W.h.onCameraStatus) W.h.onCameraStatus(conn.peer, !!m.live);
+        }
+        if(m.k==="records_sync" && W.h.onRecordsSync){
+          W.h.onRecordsSync(conn.peer, m.records);
+        }
         if(W.h.onMessage) W.h.onMessage(conn.peer,m);
       });
       conn.on("close",function(){
@@ -2002,10 +2502,10 @@ function seatName(id){ return (W.seats[id]&&W.seats[id].name)||"Candidate"; }
 function seatCount(){ return Object.keys(W.seats).length; }
 
 return { /* candidate */ connect:connect, setState:setState, sendEvent:sendEvent, finish:finish,
-         share:share, screenLive:screenLive, stop:stop,
+         share:share, screenLive:screenLive, stop:stop, updateCameraStream:updateCameraStream,
          connected:function(){return C.live}, active:function(){return !!C.peer && !C.stopped},
-         /* invigilator */ watch:watch, stopWatching:stopWatching, seatName:seatName, seatCount:seatCount,
-         ensureLib:ensureLib };
+         /* invigilator */ watch:watch, stopWatching:stopWatching, sendCommand:sendCommand,
+         seatName:seatName, seatCount:seatCount, ensureLib:ensureLib };
 })();
 
 </script>
@@ -2031,8 +2531,135 @@ function pad(n){return n<10?"0"+n:""+n}
 function hhmmss(ms){if(ms<0)ms=0;var t=Math.floor(ms/1000);return pad(Math.floor(t/3600))+":"+pad(Math.floor(t%3600/60))+":"+pad(t%60)}
 function mmss(sec){return pad(Math.floor(sec/60))+"m "+pad(sec%60)+"s"}
 
+/* ================= TEST RECORDS STORE ================= */
+var RECORDS = window.RECORDS = (function(){
+  var KEY = "sscsteno.all_records";
+  function getAll(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      var list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    }catch(e){ return []; }
+  }
+  function save(rec){
+    if(!rec || !rec.id) return;
+    var list = getAll();
+    var idx = list.findIndex(function(x){ return x.id === rec.id; });
+    if(idx >= 0) list[idx] = rec;
+    else list.unshift(rec);
+    try{ localStorage.setItem(KEY, JSON.stringify(list)); }catch(e){}
+    return list;
+  }
+  function get(id){
+    var list = getAll();
+    return list.find(function(x){ return x.id === id; }) || null;
+  }
+  function remove(id){
+    var list = getAll().filter(function(x){ return x.id !== id; });
+    try{ localStorage.setItem(KEY, JSON.stringify(list)); }catch(e){}
+    return list;
+  }
+  function clearAll(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+  }
+  function exportJSON(){
+    var data = JSON.stringify(getAll(), null, 2);
+    downloadFile(data, "candidate-test-records.json", "application/json");
+  }
+  function exportCSV(){
+    var list = getAll();
+    var headers = ["Record ID","Candidate Name","Roll No","Paper","Date & Time","Score","Max Marks","Accuracy","Time Used (sec)","Reasoning","GA","English","Integrity Status","Camera Drops","Tab Away Count","Auto Submitted"];
+    var rows = list.map(function(r){
+      var sec = r.perSec || [];
+      var s1 = sec[0] ? sec[0].score : "";
+      var s2 = sec[1] ? sec[1].score : "";
+      var s3 = sec[2] ? sec[2].score : "";
+      var p = r.proctorSummary || {};
+      return [
+        r.id,
+        '"' + (r.candidateName||"").replace(/"/g,'""') + '"',
+        r.rollNo || "",
+        '"' + (r.paperTitle||"").replace(/"/g,'""') + '"',
+        '"' + (new Date(r.submittedAt||r.at||Date.now()).toLocaleString()) + '"',
+        r.score,
+        r.maxScore || 200,
+        r.accuracy || "",
+        r.timeUsed || 0,
+        s1, s2, s3,
+        '"' + (r.integrityStatus || "Clean") + '"',
+        p.cameraDrops || 0,
+        p.tabAwayCount || 0,
+        r.auto ? "Yes" : "No"
+      ].join(",");
+    });
+    var csv = [headers.join(",")].concat(rows).join("\r\n");
+    downloadFile(csv, "candidate-test-records.csv", "text/csv");
+  }
+  function downloadFile(content, filename, type){
+    try{
+      var blob = new Blob([content], {type: type});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    }catch(e){ alert("Download failed in this browser environment."); }
+  }
+  function seedFromExisting(){
+    var existing = getAll();
+    if(existing.length > 0) return existing;
+    var found = [];
+    PAPERS.forEach(function(p){
+      try{
+        var raw = localStorage.getItem("sscsteno.res." + p.id);
+        if(raw){
+          var res = JSON.parse(raw);
+          var c = (res.detail||[]).filter(function(d){return d.st==="c"}).length;
+          var w = (res.detail||[]).filter(function(d){return d.st==="w"}).length;
+          var att = c + w;
+          var acc = att > 0 ? (c / att * 100).toFixed(1) + "%" : "0%";
+          found.push({
+            id: "rec_saved_" + p.id,
+            candidateName: res.who || "Candidate",
+            rollNo: "2026SSCSTN0417",
+            paperId: p.id,
+            paperTitle: p.title,
+            mode: res.mode || "composite",
+            score: Math.round(res.score * 100) / 100,
+            maxScore: p.q.length,
+            accuracy: acc,
+            timeUsed: res.timeUsed || 0,
+            submittedAt: res.at || Date.now(),
+            auto: !!res.auto,
+            perSec: (res.perSec||[]).map(function(x, idx){
+              return { name: SHORT[idx], c: x.c, w: x.w, u: x.u, score: Math.round(x.score * 100) / 100 };
+            }),
+            proctorSummary: { cameraDrops: 0, tabAwayCount: 0, tabAwayMs: 0, pasteCount: 0, fullscreenExits: 0 },
+            integrityStatus: "Clean",
+            events: []
+          });
+        }
+      }catch(e){}
+    });
+    if(found.length > 0){
+      try{ localStorage.setItem(KEY, JSON.stringify(found)); }catch(e){}
+    }
+    return getAll();
+  }
+  return {
+    getAll: getAll,
+    save: save,
+    get: get,
+    remove: remove,
+    clearAll: clearAll,
+    exportJSON: exportJSON,
+    exportCSV: exportCSV,
+    seedFromExisting: seedFromExisting
+  };
+})();
+
 /* ---------- screens ---------- */
-function show(id){["home","instr","exam","result","watch"].forEach(function(s){
+function show(id){["home","instr","exam","result","watch","invigilator"].forEach(function(s){
   var n=$("#screen-"+s); if(n) n.classList.toggle("hide", s!==id);});
   document.body.style.overflow = (id==="exam")?"hidden":"";
   window.scrollTo(0,0);}
@@ -2041,7 +2668,7 @@ function show(id){["home","instr","exam","result","watch"].forEach(function(s){
 function curTheme(){return document.documentElement.getAttribute("data-theme")||
   (window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
 function setTheme(t){document.documentElement.setAttribute("data-theme",t);save("sscsteno.theme",t);
-  $$("#themeBtn,#themeBtn2").forEach(function(b){b.textContent=(t==="dark"?"Light mode":"Dark mode")});}
+  $$("#themeBtn,#themeBtn2,#themeBtn3,#themeBtnInvig").forEach(function(b){b.textContent=(t==="dark"?"Light mode":"Dark mode")});}
 (function(){var t=load("sscsteno.theme"); if(t) setTheme(t); else setTheme(curTheme());})();
 
 /* ---------- palette legend ---------- */
@@ -2150,9 +2777,74 @@ function paintLiveBadge(){
     sh.textContent=LIVE.screenLive()?"Screen is shared":"Share my screen";
   }
 }
+function showCandidatePrompt(icon, title, desc, btnText, onAction){
+  var m=$("#modalCandidatePrompt"); if(!m) return;
+  $("#candPromptIcon").textContent=icon;
+  $("#candPromptTitle").textContent=title;
+  $("#candPromptDesc").innerHTML=desc;
+  var actBtn=$("#btnCandPromptAction");
+  actBtn.textContent=btnText||"OK";
+  actBtn.onclick=function(){
+    m.classList.add("hide");
+    if(onAction) onAction();
+  };
+  $("#btnCandPromptDismiss").onclick=function(){
+    m.classList.add("hide");
+  };
+  m.classList.remove("hide");
+}
+
+function handleCandidateCommand(cmd){
+  if(!cmd) return;
+  if(cmd.action==="turn_on_camera"){
+    if(cmd.ok){
+      toast("📹 Camera was enabled by your invigilator.");
+      var ab=$("#cbtCamAlert"); if(ab) ab.hidden=true;
+      var rb=$("#railCamReconnect"); if(rb) rb.hidden=true;
+    } else {
+      showCandidatePrompt(
+        "📹",
+        "Camera Activation Requested",
+        "Your invigilator has requested that your camera be turned back on for test proctoring.",
+        "Turn Camera On",
+        function(){
+          PROCTOR.restoreCamera(true).then(function(s){
+            LIVE.updateCameraStream(s);
+            toast("Camera turned on.");
+            var ab=$("#cbtCamAlert"); if(ab) ab.hidden=true;
+            var rb=$("#railCamReconnect"); if(rb) rb.hidden=true;
+          })["catch"](function(err){
+            alert(camError(err));
+          });
+        }
+      );
+    }
+  } else if(cmd.action==="request_screenshare"){
+    showCandidatePrompt(
+      "🖥️",
+      "Screen Share Requested",
+      "Your invigilator has requested that you share your screen for live monitoring.",
+      "Share Screen",
+      function(){
+        LIVE.share().then(function(){
+          toast("Screen sharing started.");
+        })["catch"](function(){});
+      }
+    );
+  } else if(cmd.action==="warning"){
+    showCandidatePrompt(
+      "⚠️",
+      "Notice from Invigilator",
+      esc(cmd.message || "Please focus on your test and keep your camera active."),
+      "I Understand",
+      null
+    );
+  }
+}
+
 function startLive(){
   if(LIVE.active()){ paintLiveBadge(); return; }
-  LIVE.connect(ROOM,candName(),paintLiveBadge)["catch"](function(){ paintLiveBadge(); });
+  LIVE.connect(ROOM,candName(),paintLiveBadge,handleCandidateCommand)["catch"](function(){ paintLiveBadge(); });
 }
 $("#railShare").onclick=function(){
   var b=$("#railShare"); b.disabled=true; b.textContent="Choose\u2026";
@@ -2250,20 +2942,74 @@ function startExam(p,resume,mode,proctored){
   }
   $("#examTitle").textContent=p.title;
   $("#candName").textContent=S.who||"Candidate";
-  /* Proctoring runs for one sitting only: a resumed paper cannot re-open the
-     camera without another permission prompt, so it continues unproctored and
-     the report says so rather than pretending the gap was covered. */
-  var wantCam = !!S.proctored && !resume && PROCTOR.supported();
+
+  var wantCam = !!S.proctored && PROCTOR.supported();
   if(wantCam && PROCTOR.cameraLive()){
     PROCTOR.begin(S.who||"Candidate");
     $("#pcam").hidden=false; $("#pcamName").textContent=S.who||"Candidate";
     PROCTOR.attach($("#pcamBox"));
     setCamPreview(false);
+  }else if(wantCam && resume){
+    PROCTOR.restoreCamera().then(function(s){
+      PROCTOR.begin(S.who||"Candidate");
+      $("#pcam").hidden=false; $("#pcamName").textContent=S.who||"Candidate";
+      PROCTOR.attach($("#pcamBox"));
+      setCamPreview(false);
+      paintLiveBadge();
+    })["catch"](function(){
+      $("#pcam").hidden=true;
+      if(S.proctored && resume) S.proctorGap=1;
+      setCamPreview(false);
+    });
   }else{
     $("#pcam").hidden=true;
     if(S.proctored && resume) S.proctorGap=1;
     setCamPreview(false);
   }
+
+  // Camera Status Watcher
+  PROCTOR.onCameraStatus(function(live, s){
+    var alertEl=$("#cbtCamAlert");
+    var recBtn=$("#railCamReconnect");
+    var dot=$("#pcamRecDot");
+    var txt=$("#pcamStatusText");
+    if(live){
+      if(alertEl) alertEl.hidden=true;
+      if(recBtn) recBtn.hidden=true;
+      if(dot) dot.style.background="#d33a3a";
+      if(txt) txt.textContent="Recording";
+      if(LIVE.active() && s) LIVE.updateCameraStream(s);
+      paintLiveBadge();
+    }else{
+      if(alertEl) alertEl.hidden=false;
+      if(recBtn) recBtn.hidden=false;
+      if(dot) dot.style.background="#777";
+      if(txt) txt.textContent="Camera Off";
+      paintLiveBadge();
+    }
+  });
+
+  // Reconnect buttons
+  var alertBtn=$("#btnAlertReconnect");
+  if(alertBtn){
+    alertBtn.onclick=function(){
+      alertBtn.disabled=true; alertBtn.textContent="Reconnecting...";
+      PROCTOR.restoreCamera(true).then(function(s){
+        alertBtn.disabled=false; alertBtn.textContent="Turn Camera On";
+        toast("Camera reconnected.");
+      })["catch"](function(err){
+        alertBtn.disabled=false; alertBtn.textContent="Turn Camera On";
+        alert(camError(err));
+      });
+    };
+  }
+  var railRecBtn=$("#railCamReconnect");
+  if(railRecBtn){
+    railRecBtn.onclick=function(){
+      if(alertBtn) alertBtn.click();
+    };
+  }
+
   setRailCollapsed(isMobile());
   show("exam");
   if(LIVE.active()){
@@ -2558,8 +3304,53 @@ function doSubmit(auto){
   if(res.timeUsed>TOTMINS*60) res.timeUsed=TOTMINS*60;
   if(res.timeUsed<0) res.timeUsed=0;
   save(LS.res(P.id),res); del(LS.prog(P.id));
+
+  var fullRecord = null;
+  try{
+    var cCount = res.detail.filter(function(d){return d.st==="c"}).length;
+    var wCount = res.detail.filter(function(d){return d.st==="w"}).length;
+    var aCount = cCount + wCount;
+    var accStr = aCount > 0 ? (cCount / aCount * 100).toFixed(1) + "%" : "0%";
+    var pSum = lastProctor ? lastProctor.summary : null;
+    var fCount = 0;
+    if(pSum){
+      fCount += (pSum.tabAwayCount||0) + (pSum.cameraDrops||0) + (pSum.pasteCount||0);
+    }
+    fullRecord = {
+      id: "rec_" + Date.now() + "_" + Math.random().toString(36).substring(2,7),
+      candidateName: res.who || "Candidate",
+      rollNo: "2026SSCSTN0417",
+      paperId: P.id,
+      paperTitle: P.title,
+      mode: res.mode,
+      score: Math.round(res.score * 100) / 100,
+      maxScore: P.q.length,
+      accuracy: accStr,
+      timeUsed: res.timeUsed,
+      submittedAt: Date.now(),
+      auto: !!auto,
+      perSec: perSec.map(function(x, i){
+        return { name: SHORT[i], c: x.c, w: x.w, u: x.u, score: Math.round(x.score * 100) / 100 };
+      }),
+      proctorSummary: pSum ? {
+        cameraDrops: pSum.cameraDrops || 0,
+        tabAwayCount: pSum.tabAwayCount || 0,
+        tabAwayMs: pSum.tabAwayMs || 0,
+        pasteCount: pSum.pasteCount || 0,
+        copyCount: pSum.copyCount || 0,
+        fullscreenExits: pSum.fullscreenExits || 0,
+        resizeFlags: pSum.resizeFlags || 0
+      } : null,
+      integrityStatus: fCount > 0 ? ("Flagged (" + fCount + " alerts)") : "Clean",
+      events: lastProctor ? lastProctor.events.slice() : [],
+      ref: lastProctor ? lastProctor.ref : null,
+      shots: lastProctor ? lastProctor.shots.slice(-16) : []
+    };
+    if(window.RECORDS) RECORDS.save(fullRecord);
+  }catch(e){}
+
   if(LIVE.active()){
-    LIVE.finish({name:res.who,paper:P.title,score:fmt(res.score),max:P.q.length,auto:!!auto});
+    LIVE.finish({name:res.who,paper:P.title,score:fmt(res.score),max:P.q.length,auto:!!auto}, fullRecord);
     setTimeout(function(){ LIVE.stop(); paintLiveBadge(); },4000);
   }
   renderResult(P,res);
@@ -2739,27 +3530,121 @@ $("#btnPrint").onclick=function(){ window.print(); };
 $("#resHome").onclick=function(){ renderHome(); show("home"); };
 $$("#themeBtn,#themeBtn2").forEach(function(b){b.onclick=function(){setTheme(curTheme()==="dark"?"light":"dark")}});
 
-/* ================= LIVE VIEW (invigilator) ================= */
-/* One room, any number of candidates. Each gets a seat holding its own
-   streams, stats and event list; the strip switches between them. */
+/* ================= INVIGILATOR PORTAL & DASHBOARD ================= */
 var seats={}, seatOrder=[], curSeat=null;
+var autoRequestCamTimer=null;
 
-$("#goWatch").onclick=function(){ show("watch"); setTimeout(function(){$("#roomInput").focus()},60); };
-$("#watchHome").onclick=function(){ LIVE.stopWatching(); resetWatch(); renderHome(); show("home"); };
-$("#themeBtn3").onclick=function(){ setTheme(curTheme()==="dark"?"light":"dark") };
-$("#roomInput").addEventListener("keydown",function(e){ if(e.key==="Enter") $("#joinBtn").click(); });
+/* ---------- Authentication (admin / steno2026) ---------- */
+function isAdminAuth(){
+  try{ return sessionStorage.getItem("sscsteno_admin_auth") === "steno2026"; }catch(e){ return false; }
+}
+function loginAdmin(u, p){
+  var user = (u||"").trim().toLowerCase();
+  var pass = (p||"").trim();
+  if(user === "admin" && pass === "steno2026"){
+    try{ sessionStorage.setItem("sscsteno_admin_auth", "steno2026"); }catch(e){}
+    return true;
+  }
+  return false;
+}
+function logoutAdmin(){
+  try{ sessionStorage.removeItem("sscsteno_admin_auth"); }catch(e){}
+  LIVE.stopWatching();
+  resetWatch();
+}
 
+function openInvigPortal(){
+  if(isAdminAuth()){
+    openInvigilatorDashboard();
+  } else {
+    var m = $("#modalInvigLogin");
+    if(m){
+      var err = $("#invigLoginErr");
+      if(err){ err.classList.add("hide"); err.textContent = ""; }
+      $("#invigUser").value = "admin";
+      $("#invigPass").value = "steno2026";
+      m.classList.remove("hide");
+      $("#invigPass").focus();
+    }
+  }
+}
+
+$("#btnHomeInvig").onclick = openInvigPortal;
+$("#goInvigilator").onclick = openInvigPortal;
+$("#invigExitToArena").onclick = function(){ show("home"); renderHome(); };
+$("#invigLogout").onclick = function(){
+  logoutAdmin();
+  toast("Logged out of Invigilator Dashboard.");
+  show("home");
+  renderHome();
+};
+
+$("#btnCancelInvigLogin").onclick = function(){
+  $("#modalInvigLogin").classList.add("hide");
+};
+
+$("#formInvigLogin").onsubmit = function(e){
+  e.preventDefault();
+  var u = $("#invigUser").value;
+  var p = $("#invigPass").value;
+  if(loginAdmin(u, p)){
+    $("#modalInvigLogin").classList.add("hide");
+    toast("Welcome, Invigilator Admin.");
+    openInvigilatorDashboard();
+  } else {
+    var err = $("#invigLoginErr");
+    err.classList.remove("hide");
+    err.textContent = "Invalid username or password. (Username: admin, Password: steno2026)";
+  }
+};
+
+/* ---------- Invigilator Dashboard Orchestration ---------- */
+function openInvigilatorDashboard(){
+  show("invigilator");
+  switchInvigTab("live");
+  startInvigWatcher("steno2026");
+  RECORDS.seedFromExisting();
+  renderRecordsTable();
+  updateRecordsKPIs();
+}
+
+function switchInvigTab(tab){
+  var btnLive = $("#tabBtnLive"), btnRec = $("#tabBtnRecords");
+  var pLive = $("#paneLive"), pRec = $("#paneRecords");
+  if(tab === "live"){
+    btnLive.classList.add("active");
+    btnRec.classList.remove("active");
+    pLive.classList.remove("hide");
+    pRec.classList.add("hide");
+    paintInvigSeats();
+    paintInvigSeat();
+  } else {
+    btnLive.classList.remove("active");
+    btnRec.classList.add("active");
+    pLive.classList.add("hide");
+    pRec.classList.remove("hide");
+    renderRecordsTable();
+    updateRecordsKPIs();
+  }
+}
+
+$("#tabBtnLive").onclick = function(){ switchInvigTab("live"); };
+$("#tabBtnRecords").onclick = function(){ switchInvigTab("records"); };
+
+/* ---------- Live Monitoring Component ---------- */
 function resetWatch(){
   seats={}; seatOrder=[]; curSeat=null;
   $("#joinCard").hidden=false; $("#watchLive").hidden=true;
   $("#watchSub").textContent="Not connected";
   $("#joinBtn").disabled=false; $("#joinBtn").textContent="Open the room";
+  updateLiveCountBadge();
 }
-function setJoinStat(msg,cls){ var e=$("#joinStat"); e.textContent=msg; e.className="joinstat"+(cls?" "+cls:""); }
+function setJoinStat(msg,cls){ var e=$("#joinStat"); if(e){ e.textContent=msg; e.className="joinstat"+(cls?" "+cls:""); } }
 
 function seat(id){
   if(!seats[id]){
-    seats[id]={id:id,name:"Candidate",cam:null,screen:null,state:null,events:[],done:null,gone:false};
+    seats[id]={id:id, name:"Candidate", roll:"2026SSCSTN0417", cam:null, screen:null,
+               camLive:false, state:null, events:[], done:null, gone:false};
     seatOrder.push(id);
   }
   return seats[id];
@@ -2767,12 +3652,21 @@ function seat(id){
 function dropSeat(id){
   var x=seats[id]; if(!x) return;
   x.gone=true;
-  if(!x.done){ /* left without submitting — keep the seat so the log survives */ }
-  if(curSeat===id) paintSeat();
+  x.camLive=false;
+  if(curSeat===id){ paintSeat(); paintInvigSeat(); }
   paintSeats();
+  paintInvigSeats();
+  updateLiveCountBadge();
 }
+
+function updateLiveCountBadge(){
+  var activeCount = seatOrder.filter(function(id){ return seats[id] && !seats[id].gone; }).length;
+  var b = $("#liveCandidateCount");
+  if(b) b.textContent = activeCount;
+}
+
 function paintSeats(){
-  var host=$("#wlSeats");
+  var host=$("#wlSeats"); if(!host) return;
   var live=seatOrder.filter(function(id){return seats[id]});
   if(live.length<=1){ host.innerHTML=""; return; }
   host.innerHTML="";
@@ -2780,11 +3674,33 @@ function paintSeats(){
     var x=seats[id];
     var b=el("button","wl-seat",'<i style="background:'+(x.gone?"var(--ink-3)":"var(--good)")+'"></i>'+esc(x.name));
     b.type="button"; b.setAttribute("aria-pressed", String(id===curSeat));
-    b.onclick=function(){ curSeat=id; paintSeats(); paintSeat(); };
+    b.onclick=function(){ curSeat=id; paintSeats(); paintSeat(); paintInvigSeats(); paintInvigSeat(); };
     host.appendChild(b);
   });
 }
+
+function paintInvigSeats(){
+  var host=$("#invigSeats"); if(!host) return;
+  var live=seatOrder.filter(function(id){return seats[id]});
+  host.innerHTML="";
+  if(!live.length){
+    host.innerHTML='<span style="font-size:12.5px;color:var(--ink-3);padding:4px 2px">No candidates currently taking a paper in room steno2026.</span>';
+    return;
+  }
+  live.forEach(function(id){
+    var x=seats[id];
+    var stCol = x.gone ? "var(--ink-3)" : (x.camLive ? "var(--good)" : "var(--bad)");
+    var camIcon = x.camLive ? "📹" : "❌";
+    var b=el("button","wl-seat",'<i style="background:'+stCol+'"></i><span>'+camIcon+' <b>'+esc(x.name)+'</b></span>');
+    b.type="button"; b.setAttribute("aria-pressed", String(id===curSeat));
+    b.title = x.name + (x.camLive?" (Camera Live)":" (Camera Off)");
+    b.onclick=function(){ curSeat=id; paintInvigSeats(); paintInvigSeat(); paintSeats(); paintSeat(); };
+    host.appendChild(b);
+  });
+}
+
 function mountStream(host,stream,label){
+  if(!host) return;
   host.innerHTML="";
   var v=document.createElement("video");
   v.autoplay=true; v.muted=true; v.playsInline=true; v.setAttribute("playsinline","");
@@ -2792,6 +3708,7 @@ function mountStream(host,stream,label){
   host.appendChild(el("div","badge",'<i></i>'+esc(label)));
   v.play()["catch"](function(){});
 }
+
 function paintSeat(){
   var x=curSeat&&seats[curSeat];
   if(!x){
@@ -2818,8 +3735,56 @@ function paintSeat(){
   else $("#wlScreen").hidden=true;
   paintFeed(x);
 }
+
+function paintInvigSeat(){
+  var x=curSeat&&seats[curSeat];
+  var nameEl=$("#invigCandName"), metaEl=$("#invigCandMeta"), statsEl=$("#invigStats");
+  var camBox=$("#invigCam"), scrBox=$("#invigScreen"), feedBox=$("#invigFeed");
+  var camBtn=$("#btnInvigTurnOnCam");
+
+  if(!x){
+    nameEl.textContent = "Select an Active Candidate";
+    metaEl.textContent = "Listening on room code: steno2026. Candidate live tests will stream here automatically.";
+    statsEl.innerHTML = "";
+    camBox.innerHTML = '<span class="wl-ph">Waiting for candidate camera&hellip;</span>';
+    scrBox.hidden = true;
+    feedBox.innerHTML = '<div class="empty">Room is active and listening. When a candidate clicks "I am ready to begin", their camera and test activity will stream here.</div>';
+    if(camBtn){ camBtn.disabled = true; camBtn.style.opacity = ".6"; }
+    return;
+  }
+
+  if(camBtn){
+    camBtn.disabled = x.gone;
+    camBtn.style.opacity = x.gone ? ".6" : "1";
+    camBtn.textContent = x.camLive ? "📹 Camera Live" : "📹 Turn On Camera";
+  }
+
+  var st = x.state;
+  nameEl.innerHTML = esc(x.name) + (x.camLive ? ' <span class="rec-tag clean">Camera Live</span>' : ' <span class="rec-tag flagged">Camera Disconnected</span>') + (x.gone ? ' <span class="rec-tag flagged">Disconnected</span>' : '');
+  metaEl.innerHTML = (x.done ? '<b>Finished paper:</b> Scored ' + esc(x.done.score) + ' / ' + esc(x.done.max) :
+                      (st && st.paper ? 'Paper: <b>' + esc(st.paper) + '</b> &middot; Mode: ' + esc(st.mode||"composite") : 'Connected'));
+
+  statsEl.innerHTML = st ?
+    ('<div><b>'+esc(st.left||"—")+'</b><span>Time left</span></div>'+
+     '<div><b>'+esc(st.sec||"—")+'</b><span>Section '+(st.secN||1)+' of 3</span></div>'+
+     '<div><b>'+(st.q||0)+' / '+(st.qOf||0)+'</b><span>Question</span></div>'+
+     '<div><b>'+(st.answered||0)+' / '+(st.total||200)+'</b><span>Answered</span></div>'+
+     '<div><b>'+(st.marked||0)+'</b><span>Marked</span></div>') :
+    ('<div><b>Active</b><span>Session</span></div><div><b>steno2026</b><span>Room</span></div>');
+
+  if(x.cam && x.camLive) mountStream(camBox, x.cam, "Candidate Webcam (" + x.name + ")");
+  else camBox.innerHTML = '<div style="text-align:center;padding:20px"><span class="wl-ph" style="display:block;margin-bottom:8px">' +
+    (x.done ? "Paper submitted" : (x.gone ? "Candidate left the test" : "Camera disconnected")) +
+    '</span><button class="invig-act-btn cam" onclick="triggerTurnOnCam(\'' + x.id + '\')">Turn On Camera</button></div>';
+
+  if(x.screen){ scrBox.hidden = false; mountStream(scrBox, x.screen, "Candidate Screen"); }
+  else scrBox.hidden = true;
+
+  paintInvigFeed(x);
+}
+
 function paintFeed(x){
-  var feed=$("#wlFeed");
+  var feed=$("#wlFeed"); if(!feed) return;
   if(!x.events.length){ feed.innerHTML='<div class="empty">Connected. Waiting for activity\u2026</div>'; return; }
   feed.innerHTML="";
   x.events.slice(0,200).forEach(function(e){
@@ -2830,61 +3795,368 @@ function paintFeed(x){
       (e.awayMs!=null?' <span class="tm">(away '+REPORT.dur(e.awayMs)+')</span>':'')+'</span>'));
   });
 }
+
+function paintInvigFeed(x){
+  var feed=$("#invigFeed"); if(!feed) return;
+  if(!x.events.length){ feed.innerHTML='<div class="empty">Connected. Waiting for activity&hellip;</div>'; return; }
+  feed.innerHTML="";
+  x.events.slice(0,200).forEach(function(e){
+    var sev=REPORT.SEV[e.type]||"";
+    feed.appendChild(el("div","ev "+sev,
+      '<span class="tm">'+REPORT.clock(e.t)+'</span><span><b>'+esc(REPORT.LABEL[e.type]||e.type)+'</b>'+
+      (e.detail?' \u2014 '+esc(e.detail):'')+
+      (e.awayMs!=null?' <span class="tm">(away '+REPORT.dur(e.awayMs)+')</span>':'')+'</span>'));
+  });
+}
+
 function addEvent(id,e){
   var x=seat(id);
   x.events.unshift(e);
   if(x.events.length>250) x.events.length=250;
-  if(curSeat===id) paintFeed(x);
+  if(curSeat===id){ paintFeed(x); paintInvigFeed(x); }
 }
-$("#joinBtn").onclick=function(){
-  var code=$("#roomInput").value;
-  $("#joinBtn").disabled=true; $("#joinBtn").textContent="Opening\u2026";
-  setJoinStat("Opening the room\u2026","busy");
-  LIVE.watch(code,{
-    onJoin:function(id){
-      var x=seat(id);
-      if(!curSeat||seats[curSeat].gone) curSeat=id;
+
+function handleAutoCameraCheck(id){
+  var chk = $("#chkAutoRequestCam");
+  if(!chk || !chk.checked) return;
+  clearTimeout(autoRequestCamTimer);
+  autoRequestCamTimer = setTimeout(function(){
+    var s = seats[id];
+    if(s && !s.camLive && !s.gone && !s.done){
+      LIVE.sendCommand(id, "turn_on_camera");
+      addEvent(id, {t:0, type:"cmd_cam", detail:"Invigilator system sent auto camera turn-on request."});
+    }
+  }, 2000);
+}
+
+function triggerTurnOnCam(targetId){
+  var peerId = targetId || curSeat;
+  if(!peerId){ alert("No candidate selected."); return; }
+  var ok = LIVE.sendCommand(peerId, "turn_on_camera");
+  if(ok){
+    toast("Command sent to turn on candidate camera.");
+    addEvent(peerId, {t:0, type:"cmd_cam", detail:"Invigilator clicked Turn On Camera."});
+  } else {
+    alert("Could not reach candidate connection.");
+  }
+}
+window.triggerTurnOnCam = triggerTurnOnCam;
+
+$("#btnInvigTurnOnCam").onclick = function(){ triggerTurnOnCam(); };
+
+$("#btnInvigReqScreen").onclick = function(){
+  if(!curSeat){ alert("No candidate selected."); return; }
+  var ok = LIVE.sendCommand(curSeat, "request_screenshare");
+  if(ok){
+    toast("Screen share request sent to candidate.");
+  } else {
+    alert("Could not reach candidate connection.");
+  }
+};
+
+$("#btnInvigSendWarn").onclick = function(){
+  if(!curSeat){ alert("No candidate selected."); return; }
+  var msg = prompt("Enter notice/warning to display on candidate's exam screen:", "Please keep your camera centered and remain inside the test tab.");
+  if(msg){
+    var ok = LIVE.sendCommand(curSeat, "warning", {message: msg});
+    if(ok){
+      addEvent(curSeat, {t:0, type:"cmd_warning", detail:msg});
+      toast("Alert sent to candidate screen.");
+    }
+  }
+};
+
+$("#btnRefreshWatch").onclick = function(){
+  startInvigWatcher("steno2026", true);
+};
+
+function startInvigWatcher(code, force){
+  var roomCode = code || "steno2026";
+  $("#invigRoomStatusText").textContent = "Connecting to room...";
+  LIVE.watch(roomCode, {
+    onJoin: function(id){
+      var x = seat(id);
+      if(!curSeat || seats[curSeat].gone) curSeat = id;
       paintSeats(); paintSeat();
+      paintInvigSeats(); paintInvigSeat();
+      updateLiveCountBadge();
+      toast("Candidate connected: " + esc(x.name));
     },
-    onStream:function(id,kind,stream){
-      var x=seat(id);
-      if(kind==="screen") x.screen=stream; else x.cam=stream;
-      if(curSeat===id) paintSeat();
+    onStream: function(id, kind, stream){
+      var x = seat(id);
+      if(kind === "screen"){ x.screen = stream; }
+      else { x.cam = stream; x.camLive = true; }
+      if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+      paintInvigSeats();
     },
-    onStreamEnd:function(id,kind){
-      var x=seats[id]; if(!x) return;
-      if(kind==="screen") x.screen=null; else x.cam=null;
-      if(curSeat===id) paintSeat();
+    onStreamEnd: function(id, kind){
+      var x = seats[id]; if(!x) return;
+      if(kind === "screen"){ x.screen = null; }
+      else { x.cam = null; x.camLive = false; handleAutoCameraCheck(id); }
+      if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+      paintInvigSeats();
     },
-    onMessage:function(id,m){
-      var x=seat(id);
-      if(m.k==="hello"){ x.name=m.name||"Candidate"; paintSeats(); if(curSeat===id) paintSeat(); }
-      else if(m.k==="state"){ x.state=m.s; if(m.s&&m.s.name) x.name=m.s.name;
-        if(curSeat===id) paintSeat(); else paintSeats(); }
-      else if(m.k==="event") addEvent(id,m.e);
-      else if(m.k==="done"){
-        x.done=m.r;
-        addEvent(id,{t:(x.state&&0)||0,type:"finish",
-          detail:"Scored "+m.r.score+" / "+m.r.max+(m.r.auto?" (auto-submitted)":"")});
-        if(curSeat===id) paintSeat();
+    onCameraStatus: function(id, isLive){
+      var x = seat(id);
+      x.camLive = !!isLive;
+      if(!isLive) handleAutoCameraCheck(id);
+      if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+      paintInvigSeats();
+    },
+    onRecordsSync: function(id, records){
+      if(Array.isArray(records)){
+        records.forEach(function(r){ RECORDS.save(r); });
+        renderRecordsTable();
+        updateRecordsKPIs();
       }
     },
-    onLeave:function(id){ dropSeat(id); },
-    onError:function(err){ setJoinStat(liveErr(err),"err"); }
+    onMessage: function(id, m){
+      var x = seat(id);
+      if(m.k === "hello"){
+        x.name = m.name || "Candidate";
+        paintSeats(); paintInvigSeats();
+        if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+      } else if(m.k === "state"){
+        x.state = m.s;
+        if(m.s && m.s.name) x.name = m.s.name;
+        if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+        else { paintSeats(); paintInvigSeats(); }
+      } else if(m.k === "event"){
+        addEvent(id, m.e);
+      } else if(m.k === "cmd_ack"){
+        if(m.action === "turn_on_camera" && m.ok){
+          x.camLive = true;
+          if(curSeat === id) paintInvigSeat();
+          paintInvigSeats();
+          toast("Candidate " + esc(x.name) + " camera is now on.");
+        }
+      } else if(m.k === "done"){
+        x.done = m.r;
+        addEvent(id, {t: 0, type: "finish", detail: "Scored " + m.r.score + " / " + m.r.max + (m.r.auto ? " (auto-submitted)" : "")});
+        if(m.record){
+          RECORDS.save(m.record);
+          renderRecordsTable();
+          updateRecordsKPIs();
+        }
+        if(curSeat === id){ paintSeat(); paintInvigSeat(); }
+        toast("Candidate " + esc(x.name) + " submitted test!");
+      }
+    },
+    onLeave: function(id){
+      dropSeat(id);
+    },
+    onError: function(err){
+      $("#invigRoomStatusText").textContent = liveErr(err);
+      setJoinStat(liveErr(err), "err");
+    }
   }).then(function(c){
-    $("#joinCard").hidden=true; $("#watchLive").hidden=false;
+    $("#invigRoomStatusText").textContent = "Active \u00b7 Listening on " + c;
     paintSeats(); paintSeat();
+    paintInvigSeats(); paintInvigSeat();
+    updateLiveCountBadge();
   })["catch"](function(err){
-    $("#joinBtn").disabled=false; $("#joinBtn").textContent="Open the room";
-    setJoinStat(liveErr(err),"err");
+    $("#invigRoomStatusText").textContent = liveErr(err);
+    setJoinStat(liveErr(err), "err");
   });
-};
-resetWatch();
+}
 
-/* ---------- boot ---------- */
+/* Legacy Live Join screen */
+$("#goWatch").onclick = function(){ show("watch"); setTimeout(function(){$("#roomInput").focus()},60); };
+$("#watchHome").onclick = function(){ LIVE.stopWatching(); resetWatch(); renderHome(); show("home"); };
+$("#themeBtn3").onclick = function(){ setTheme(curTheme()==="dark"?"light":"dark") };
+$("#roomInput").addEventListener("keydown",function(e){ if(e.key==="Enter") $("#joinBtn").click(); });
+
+$("#joinBtn").onclick = function(){
+  var code = $("#roomInput").value;
+  $("#joinBtn").disabled = true; $("#joinBtn").textContent = "Opening\u2026";
+  setJoinStat("Opening the room\u2026", "busy");
+  startInvigWatcher(code);
+  $("#joinCard").hidden = true;
+  $("#watchLive").hidden = false;
+};
+
+/* ---------- Test Records Dashboard Component ---------- */
+function renderRecordsTable(){
+  var tbody = $("#recTableBody"); if(!tbody) return;
+  var emptyMsg = $("#recEmptyMessage");
+  var list = RECORDS.getAll();
+
+  var q = ($("#recSearchInput").value || "").trim().toLowerCase();
+  var paperFilter = $("#recFilterPaper").value;
+  var statusFilter = $("#recFilterStatus").value;
+
+  var filtered = list.filter(function(r){
+    if(q){
+      var cand = (r.candidateName || "").toLowerCase();
+      var roll = (r.rollNo || "").toLowerCase();
+      var title = (r.paperTitle || "").toLowerCase();
+      if(cand.indexOf(q) === -1 && roll.indexOf(q) === -1 && title.indexOf(q) === -1) return false;
+    }
+    if(paperFilter !== "all" && r.paperId !== paperFilter) return false;
+    if(statusFilter === "clean" && r.integrityStatus && r.integrityStatus.indexOf("Flagged") >= 0) return false;
+    if(statusFilter === "flagged" && (!r.integrityStatus || r.integrityStatus.indexOf("Flagged") === -1)) return false;
+    return true;
+  });
+
+  var badgeEl = $("#totalRecordsCount");
+  if(badgeEl) badgeEl.textContent = list.length;
+
+  if(!filtered.length){
+    tbody.innerHTML = "";
+    if(emptyMsg) emptyMsg.classList.remove("hide");
+    return;
+  }
+  if(emptyMsg) emptyMsg.classList.add("hide");
+
+  tbody.innerHTML = filtered.map(function(r, idx){
+    var isFlagged = r.integrityStatus && r.integrityStatus.indexOf("Flagged") >= 0;
+    var tagCls = isFlagged ? "rec-tag flagged" : "rec-tag clean";
+    var tagText = r.integrityStatus || "Clean";
+    var dStr = r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() + " " + new Date(r.submittedAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : "—";
+    var sec = r.perSec || [];
+    var s1 = sec[0] ? (Math.round(sec[0].score*10)/10) : "—";
+    var s2 = sec[1] ? (Math.round(sec[1].score*10)/10) : "—";
+    var s3 = sec[2] ? (Math.round(sec[2].score*10)/10) : "—";
+
+    return '<tr>' +
+      '<td>' + (idx + 1) + '</td>' +
+      '<td><b>' + esc(r.candidateName||"Candidate") + '</b><br><span class="cand-roll num">' + esc(r.rollNo||"—") + '</span></td>' +
+      '<td>' + esc(r.paperTitle||"Paper") + '<br><span style="font-size:11px;color:var(--ink-3)">' + esc(r.mode||"composite") + '</span></td>' +
+      '<td class="num">' + dStr + '</td>' +
+      '<td><b class="num">' + esc(r.score) + '</b> <span style="font-size:11px;color:var(--ink-3)">/ ' + (r.maxScore||200) + ' (' + (r.accuracy||"—") + ')</span></td>' +
+      '<td class="num">' + mmss(r.timeUsed||0) + '</td>' +
+      '<td class="num">' + s1 + '</td>' +
+      '<td class="num">' + s2 + '</td>' +
+      '<td class="num">' + s3 + '</td>' +
+      '<td><span class="' + tagCls + '">' + esc(tagText) + '</span></td>' +
+      '<td>' +
+        '<div style="display:flex;gap:5px;flex-wrap:wrap">' +
+          '<button type="button" class="ghostbtn sm" onclick="viewRecordDetail(\'' + r.id + '\')">📄 Report</button>' +
+          '<button type="button" class="ghostbtn sm danger" onclick="deleteRecord(\'' + r.id + '\')">🗑️</button>' +
+        '</div>' +
+      '</td>' +
+    '</tr>';
+  }).join("");
+}
+
+function updateRecordsKPIs(){
+  var list = RECORDS.getAll();
+  var kpiTotal = $("#kpiTotalTests"), kpiAvg = $("#kpiAvgScore"),
+      kpiHigh = $("#kpiHighScore"), kpiFlagged = $("#kpiFlaggedTests");
+  if(!kpiTotal) return;
+
+  kpiTotal.textContent = list.length;
+  if(!list.length){
+    kpiAvg.textContent = "0.0";
+    kpiHigh.textContent = "0 / 200";
+    kpiFlagged.textContent = "0";
+    return;
+  }
+
+  var sum = 0, max = 0, flagged = 0;
+  list.forEach(function(r){
+    var sc = parseFloat(r.score) || 0;
+    sum += sc;
+    if(sc > max) max = sc;
+    if(r.integrityStatus && r.integrityStatus.indexOf("Flagged") >= 0) flagged++;
+  });
+
+  kpiAvg.textContent = (sum / list.length).toFixed(1);
+  kpiHigh.textContent = fmt(max) + " / 200";
+  kpiFlagged.textContent = flagged;
+}
+
+$("#recSearchInput").addEventListener("input", renderRecordsTable);
+$("#recFilterPaper").addEventListener("change", renderRecordsTable);
+$("#recFilterStatus").addEventListener("change", renderRecordsTable);
+
+$("#btnExportJSON").onclick = function(){ RECORDS.exportJSON(); };
+$("#btnExportCSV").onclick = function(){ RECORDS.exportCSV(); };
+$("#btnClearRecords").onclick = function(){
+  if(confirm("Are you sure you want to permanently delete all candidate test records? This cannot be undone.")){
+    RECORDS.clearAll();
+    renderRecordsTable();
+    updateRecordsKPIs();
+    toast("All candidate test records cleared.");
+  }
+};
+
+function deleteRecord(id){
+  if(confirm("Delete this candidate test record?")){
+    RECORDS.remove(id);
+    renderRecordsTable();
+    updateRecordsKPIs();
+    toast("Record removed.");
+  }
+}
+window.deleteRecord = deleteRecord;
+
+function viewRecordDetail(id){
+  var r = RECORDS.get(id);
+  if(!r){ alert("Record not found."); return; }
+
+  $("#recModalTitle").textContent = "Test Report: " + (r.candidateName || "Candidate") + " — " + (r.paperTitle || "Paper");
+  var body = $("#recModalBody");
+
+  var pSum = r.proctorSummary || {};
+  var dStr = r.submittedAt ? new Date(r.submittedAt).toLocaleString() : "—";
+  var secRows = (r.perSec || []).map(function(s){
+    return '<tr><td><b>' + esc(s.name) + '</b></td><td>' + (s.c+s.w+s.u) + '</td><td>' + (s.c+s.w) +
+           '</td><td style="color:var(--good)">' + s.c + '</td><td style="color:var(--bad)">' + s.w +
+           '</td><td>' + s.u + '</td><td><b>' + s.score + '</b></td></tr>';
+  }).join("");
+
+  var flagItems = [
+    '<li>Left test tab: <b>' + (pSum.tabAwayCount||0) + ' time' + ((pSum.tabAwayCount||0)>1?"s":"") + '</b> (away ' + REPORT.dur(pSum.tabAwayMs||0) + ')</li>',
+    '<li>Camera drops: <b>' + (pSum.cameraDrops||0) + ' time' + ((pSum.cameraDrops||0)>1?"s":"") + '</b></li>',
+    '<li>Pasted into page: <b>' + (pSum.pasteCount||0) + ' time' + ((pSum.pasteCount||0)>1?"s":"") + '</b></li>',
+    '<li>Fullscreen exits: <b>' + (pSum.fullscreenExits||0) + ' time' + ((pSum.fullscreenExits||0)>1?"s":"") + '</b></li>'
+  ].join("");
+
+  var evRows = (r.events || []).slice(0, 50).map(function(e){
+    var sev = REPORT.SEV[e.type] || "";
+    return '<tr class="' + sev + '"><td class="num">' + REPORT.clock(e.t) + '</td><td><b>' +
+      esc(REPORT.LABEL[e.type]||e.type) + '</b></td><td>' + esc(e.detail||"") + '</td></tr>';
+  }).join("") || '<tr><td colspan="3" class="weak" style="padding:10px;text-align:center">No security incidents logged.</td></tr>';
+
+  var shotGrid = (r.shots || []).map(function(s){
+    return '<figure style="margin:0"><img style="width:100%;border-radius:4px;display:block;background:#000" src="' + s.img + '" alt="Snap"><figcaption style="font-size:10px;color:var(--ink-3);padding-top:2px">' + REPORT.clock(s.t) + '</figcaption></figure>';
+  }).join("") || '<div style="font-size:12px;color:var(--ink-3)">No snapshot thumbnails saved for this record.</div>';
+
+  body.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px;background:var(--card);padding:14px;border:1px solid var(--rule);border-radius:8px">' +
+      '<div><span style="font-size:11px;color:var(--ink-3);text-transform:uppercase">Candidate</span><br><b>' + esc(r.candidateName) + '</b></div>' +
+      '<div><span style="font-size:11px;color:var(--ink-3);text-transform:uppercase">Roll Number</span><br><b class="num">' + esc(r.rollNo) + '</b></div>' +
+      '<div><span style="font-size:11px;color:var(--ink-3);text-transform:uppercase">Score</span><br><b style="color:var(--accent);font-size:18px">' + esc(r.score) + ' / ' + (r.maxScore||200) + '</b> (' + (r.accuracy||"—") + ')</div>' +
+      '<div><span style="font-size:11px;color:var(--ink-3);text-transform:uppercase">Submission Time</span><br>' + dStr + '</div>' +
+    '</div>' +
+    '<h4 style="margin:16px 0 8px">Score by Section</h4>' +
+    '<div class="table-scroll" style="margin-bottom:16px"><table class="pattern"><thead><tr><th>Section</th><th>Total Qs</th><th>Attempted</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Score</th></tr></thead><tbody>' + secRows + '</tbody></table></div>' +
+    '<h4 style="margin:16px 0 8px">Proctor &amp; Integrity Summary (' + esc(r.integrityStatus||"Clean") + ')</h4>' +
+    '<ul class="flags" style="margin-bottom:16px">' + flagItems + '</ul>' +
+    '<h4 style="margin:16px 0 8px">Activity Timeline</h4>' +
+    '<div class="table-scroll" style="max-height:220px;overflow-y:auto;margin-bottom:16px"><table class="pattern"><thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead><tbody>' + evRows + '</tbody></table></div>' +
+    '<h4 style="margin:16px 0 8px">Camera Captured Snapshots</h4>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px">' + shotGrid + '</div>';
+
+  $("#modalRecordDetail").classList.remove("hide");
+}
+window.viewRecordDetail = viewRecordDetail;
+
+$("#btnCloseRecModal").onclick = function(){ $("#modalRecordDetail").classList.add("hide"); };
+$("#btnRecModalClose2").onclick = function(){ $("#modalRecordDetail").classList.add("hide"); };
+$("#btnRecModalPrint").onclick = function(){ window.print(); };
+
+/* ---------- boot & routing ---------- */
+resetWatch();
 if(!PAPERS.length){ $("#paperCards").innerHTML='<div class="empty">No papers loaded.</div>'; }
 else renderHome();
-show("home");
+
+if(location.hash === "#invigilator" || location.search.indexOf("admin") >= 0 || location.search.indexOf("invigilator") >= 0){
+  openInvigPortal();
+} else {
+  show("home");
+}
 })();
 
 </script>
