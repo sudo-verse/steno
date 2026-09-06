@@ -2507,6 +2507,19 @@ function bindTrackListeners(s){
     t.addEventListener("mute", function(){
       handleCameraDrop("The camera feed was muted/interrupted.");
     });
+    /* A track fires "mute" for plenty of harmless, transient reasons (tab
+       backgrounding, a brief driver hiccup, OS camera arbitration) and
+       readyState stays "live" throughout, so cameraLive() never notices
+       and the periodic health check can't clear the warning either.
+       Without this listener the "camera disconnected" banner — once
+       raised by a momentary mute — never comes back down on its own,
+       even though the same live track resumes seconds later. */
+    t.addEventListener("unmute", function(){
+      if(t.readyState!=="live") return;
+      clearTimeout(autoRestoreTimer);
+      if(running) log("camera_on","The camera feed resumed.");
+      notifyCamStatus(true, stream);
+    });
   });
 }
 
@@ -3106,7 +3119,8 @@ function stop(){
 }
 
 /* ================= INVIGILATOR (holds the fixed id) ================= */
-var W={ peer:null, code:"", h:null, seats:{} };
+var SEAT_TIMEOUT=20000, SWEEP_MS=5000;
+var W={ peer:null, code:"", h:null, seats:{}, sweepTimer:null };
 
 function sendCommand(peerId, action, extra){
   var s=W.seats[peerId];
@@ -3127,12 +3141,23 @@ function watch(code,h){
     W.peer=p;
     p.on("connection",function(conn){
       conn.on("open",function(){
-        W.seats[conn.peer]=W.seats[conn.peer]||{id:conn.peer,name:"Candidate",conn:conn,cam:null,screen:null,camLive:false};
+        /* A candidate who reconnects (after this invigilator tab was gone,
+           or after any dropped connection) dials in again with the SAME
+           peer id but a brand-new DataConnection. The old entry can still
+           be sitting in W.seats if its own close event never fired — do
+           not let `||` silently keep that dead connection and drop this
+           live one; always adopt the fresh conn, and shut the old one
+           down if it's still hanging around. */
+        var prev=W.seats[conn.peer];
+        if(prev && prev.conn && prev.conn!==conn){ try{prev.conn.close()}catch(e){} }
+        W.seats[conn.peer]={id:conn.peer, name:(prev&&prev.name)||"Candidate", conn:conn,
+                             cam:null, screen:null, camLive:false, lastSeen:Date.now()};
         if(W.h.onJoin) W.h.onJoin(conn.peer);
       });
       conn.on("data",function(m){
         if(!m||!m.k) return;
         var seat=W.seats[conn.peer];
+        if(seat) seat.lastSeen=Date.now();
         if(m.k==="ping"){ try{conn.send({k:"pong"})}catch(e){} return; }
         if(m.k==="hello" && seat){
           seat.name=m.name||"Candidate";
@@ -3148,8 +3173,14 @@ function watch(code,h){
         if(W.h.onMessage) W.h.onMessage(conn.peer,m);
       });
       conn.on("close",function(){
-        if(W.h.onLeave) W.h.onLeave(conn.peer);
-        delete W.seats[conn.peer];
+        /* Only tear the seat down if this closing conn is still the one
+           on record — a reconnect may already have replaced it, and a
+           late close from the old, superseded connection must not wipe
+           out the new live seat. */
+        if(W.seats[conn.peer] && W.seats[conn.peer].conn===conn){
+          delete W.seats[conn.peer];
+          if(W.h.onLeave) W.h.onLeave(conn.peer);
+        }
       });
       conn.on("error",function(){});
     });
@@ -3164,13 +3195,32 @@ function watch(code,h){
       if(W.h.onError) W.h.onError({code:(err&&err.type)||"error",message:(err&&err.message)||"Connection error."});
     });
     p.on("disconnected",function(){ try{p.reconnect()}catch(e){} });
+    clearInterval(W.sweepTimer);
+    /* Backstop for the same WebRTC blind spot as the candidate side: a
+       candidate whose tab just vanishes may never trigger conn.on("close")
+       here either, leaving a frozen seat with stale video forever. Sweep
+       for seats that have gone quiet (no ping/data in SEAT_TIMEOUT) and
+       drop them so the UI reflects reality and a real reconnect can
+       replace them cleanly. */
+    W.sweepTimer=setInterval(function(){
+      var now=Date.now();
+      Object.keys(W.seats).forEach(function(id){
+        var s=W.seats[id];
+        if(now-(s.lastSeen||0)>SEAT_TIMEOUT){
+          try{s.conn.close()}catch(e){}
+          delete W.seats[id];
+          if(W.h.onLeave) W.h.onLeave(id);
+        }
+      });
+    },SWEEP_MS);
     return c;
   });
 }
 function stopWatching(){
+  clearInterval(W.sweepTimer);
   Object.keys(W.seats).forEach(function(k){ try{W.seats[k].conn.close()}catch(e){} });
   if(W.peer){ try{W.peer.destroy()}catch(e){} }
-  W={peer:null,code:W.code,h:W.h,seats:{}};
+  W={peer:null,code:W.code,h:W.h,seats:{},sweepTimer:null};
 }
 function seatName(id){ return (W.seats[id]&&W.seats[id].name)||"Candidate"; }
 function seatCount(){ return Object.keys(W.seats).length; }
@@ -4549,6 +4599,11 @@ function startInvigWatcher(code, force){
   LIVE.watch(roomCode, {
     onJoin: function(id){
       var x = seat(id);
+      /* seat(id) reuses any existing entry for this id, which after a
+         reconnect can still be marked gone with stale video streams from
+         the dead connection — clear that so the seat reads as live again
+         instead of staying stuck "disconnected" in the UI. */
+      x.gone = false; x.cam = null; x.screen = null; x.camLive = false;
       if(!curSeat || seats[curSeat].gone) curSeat = id;
       paintSeats(); paintSeat();
       paintInvigSeats(); paintInvigSeat();
